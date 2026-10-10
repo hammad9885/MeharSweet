@@ -1,0 +1,73 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Support\Facades\DB;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        DB::statement("
+            CREATE OR REPLACE VIEW trn_dtl_views AS
+            SELECT
+                t.id AS id,
+                CAST(t.account_id AS UNSIGNED INTEGER) AS aid,
+                t.date AS v_date,
+                t.v_no AS v_no,
+                t.r_id AS r_id,
+                t.v_type COLLATE utf8mb4_unicode_ci AS v_type,
+                t.description COLLATE utf8mb4_unicode_ci AS descr,
+                CAST(t.debit AS CHAR(255) CHARACTER SET utf8mb4) COLLATE utf8mb4_unicode_ci AS debit,
+                CAST(t.credit AS CHAR(255) CHARACTER SET utf8mb4) COLLATE utf8mb4_unicode_ci AS credit,
+                CAST(t.cid AS UNSIGNED INTEGER) AS cid
+            FROM trn_dtl AS t
+            WHERE t.v_type != 'OB'
+            UNION ALL
+            SELECT
+                NULL AS id,
+                CAST(ob.aid AS UNSIGNED INTEGER) AS aid,
+                ob.op_date AS v_date,
+                1 AS v_no,
+                NULL AS r_id,
+                'OPN' COLLATE utf8mb4_unicode_ci AS v_type,
+                'Opening Balance' COLLATE utf8mb4_unicode_ci AS descr,
+                CAST(ob.debit AS CHAR(255) CHARACTER SET utf8mb4) COLLATE utf8mb4_unicode_ci AS debit,
+                CAST(ob.credit AS CHAR(255) CHARACTER SET utf8mb4) COLLATE utf8mb4_unicode_ci AS credit,
+                CAST(ob.cid AS UNSIGNED INTEGER) AS cid
+            FROM opening_bakance AS ob
+        ");
+    }
+
+    public function down(): void
+    {
+        DB::statement("
+            CREATE OR REPLACE VIEW trn_dtl_views AS
+            SELECT
+                t.id AS id,
+                CAST(t.account_id AS UNSIGNED INTEGER) AS aid,
+                t.date AS v_date,
+                t.v_no AS v_no,
+                t.r_id AS r_id,
+                t.v_type COLLATE utf8mb4_unicode_ci AS v_type,
+                t.description COLLATE utf8mb4_unicode_ci AS descr,
+                CAST(t.debit AS CHAR(255) CHARACTER SET utf8mb4) COLLATE utf8mb4_unicode_ci AS debit,
+                CAST(t.credit AS CHAR(255) CHARACTER SET utf8mb4) COLLATE utf8mb4_unicode_ci AS credit,
+                CAST(t.cid AS UNSIGNED INTEGER) AS cid
+            FROM trn_dtl AS t
+            WHERE t.v_type != 'OB'
+            UNION ALL
+            SELECT
+                NULL AS id,
+                CAST(ob.aid AS UNSIGNED INTEGER) AS aid,
+                ob.op_date AS v_date,
+                1 AS v_no,
+                NULL AS r_id,
+                'OPN' COLLATE utf8mb4_unicode_ci AS v_type,
+                'Opening Balance' COLLATE utf8mb4_unicode_ci AS descr,
+                CAST(ob.debit AS CHAR(255) CHARACTER SET utf8mb4) COLLATE utf8mb4_unicode_ci AS debit,
+                CAST(ob.credit AS CHAR(255) CHARACTER SET utf8mb4) COLLATE utf8mb4_unicode_ci AS credit,
+                CAST(ob.cid AS UNSIGNED INTEGER) AS cid
+            FROM opening_bakance AS ob
+        ");
+    }
+};
