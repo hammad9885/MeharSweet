@@ -21,6 +21,34 @@ class LoginController extends Controller
         return \Inertia\Inertia::render('Auth/Login');
     }
 
+    public function login(Request $request)
+    {
+        $this->validateLogin($request);
+
+        if (method_exists($this, 'hasTooManyLoginAttempts') &&
+            $this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
+        }
+
+        try {
+            if ($this->attemptLogin($request)) {
+                if ($request->hasSession()) {
+                    $request->session()->put('auth.password_confirmed_at', time());
+                }
+
+                return $this->sendLoginResponse($request);
+            }
+        } catch (\Throwable $e) {
+            return back()->withErrors([
+                'email' => '⚠️ MySQL Server Offline: Port 3306 par MySQL start nahi hai. Database connect karne ke liye XAMPP/MySQL start karein.',
+            ]);
+        }
+
+        return $this->sendFailedLoginResponse($request);
+    }
+
     /**
      * Where to redirect users after login.
      *
