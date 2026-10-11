@@ -15,10 +15,10 @@ return new class extends Migration
                 t.account_id AS aid,
                 t.date AS v_date,
                 t.v_no AS v_no,
-                t.v_type AS v_type,
-                t.description AS descr,
-                t.debit AS debit,
-                t.credit AS credit,
+                t.v_type COLLATE utf8mb4_unicode_ci AS v_type,
+                t.description COLLATE utf8mb4_unicode_ci AS descr,
+                CAST(t.debit AS CHAR(255) CHARACTER SET utf8mb4) COLLATE utf8mb4_unicode_ci AS debit,
+                CAST(t.credit AS CHAR(255) CHARACTER SET utf8mb4) COLLATE utf8mb4_unicode_ci AS credit,
                 t.cid AS cid
             FROM trn_dtl AS t
             WHERE t.v_type != 'OB'

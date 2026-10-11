@@ -15,17 +15,11 @@ return new class extends Migration {
     $table->integer('min_qty')->nullable();
     $table->unsignedBigInteger('cid');
 
-    // ✅ FIX 1: item type as foreign key
-    $table->foreignId('type_id')
-          ->nullable()
-          ->constrained('item_types') // table name
-          ->nullOnDelete();
+    // ✅ FIX 1: item type
+    $table->integer('type_id')->nullable();
 
-    // ✅ FIX 2: unit as foreign key
-    $table->foreignId('unit_id')
-          ->nullable()
-          ->constrained('units') // ⚠️ make sure this table exists
-          ->nullOnDelete();
+    // ✅ FIX 2: unit
+    $table->integer('unit_id')->nullable();
 
     // Other fields
     $table->string('product_name')->nullable();

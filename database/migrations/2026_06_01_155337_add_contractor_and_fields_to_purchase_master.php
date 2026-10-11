@@ -9,11 +9,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('purchase_master', function (Blueprint $table) {
-            $table->string('ref_no')->nullable()->after('gate_pass_no');
-            $table->text('remarks')->nullable()->after('ref_no');
-            $table->unsignedBigInteger('contractor_id')->nullable()->after('supplier_id');
-            $table->decimal('freight', 12, 2)->default(0)->after('discount');
-            $table->decimal('net_amount', 12, 2)->default(0)->after('freight');
+            $table->string('ref_no')->nullable();
+            $table->text('remarks')->nullable();
+            $table->unsignedBigInteger('contractor_id')->nullable();
+            $table->decimal('freight', 12, 2)->default(0);
+            $table->decimal('net_amount', 12, 2)->default(0);
         });
     }
 

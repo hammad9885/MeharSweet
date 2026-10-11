@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('restrictions', function (Blueprint $table) {
             $table->id();
             $table->string('app');
-            $table->string('permission');
+            $table->string('permission')->nullable();
+            $table->string('value')->nullable();
+            $table->unsignedBigInteger('cid')->nullable();
             $table->timestamps();
         });
     }
