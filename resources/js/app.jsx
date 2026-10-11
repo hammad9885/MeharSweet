@@ -11,7 +11,9 @@ const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 // Inertia React App Mount
 const appElement = document.getElementById('app');
 if (appElement && appElement.dataset.page) {
+    const initialPage = JSON.parse(appElement.dataset.page);
     createInertiaApp({
+        page: initialPage,
         title: (title) => `${title} - ${appName}`,
         resolve: (name) => resolvePageComponent(`./Pages/${name}.jsx`, import.meta.glob('./Pages/**/*.jsx')),
         setup({ el, App, props }) {
