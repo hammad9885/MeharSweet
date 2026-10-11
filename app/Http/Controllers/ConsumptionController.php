@@ -44,6 +44,14 @@ class ConsumptionController extends Controller
             ->get()
             ->keyBy('id');
 
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            return \Inertia\Inertia::render('Manufacturing/Consumption/Index', [
+                'consumptions' => $consumptions,
+                'products' => $products,
+                'filters' => $request->all(),
+            ]);
+        }
+
         return view('consumption.index', compact('consumptions', 'products'));
     }
 
@@ -106,6 +114,10 @@ class ConsumptionController extends Controller
         $contractors = $contractors->where('level2_id', $contractorLevel);
     }
     $contractors = $contractors->get();
+
+    if (request()->wantsJson() || request()->header('X-Inertia')) {
+        return \Inertia\Inertia::render('Manufacturing/Consumption/CreateEdit', compact('items', 'raw', 'expenseAccounts', 'molds', 'contractors', 'productMaster', 'existingProductIds', 'latestRates'));
+    }
 
     return view('consumption.create', compact('items', 'raw', 'expenseAccounts', 'molds', 'contractors', 'productMaster', 'existingProductIds', 'latestRates'));
 }
@@ -236,6 +248,20 @@ class ConsumptionController extends Controller
         $contractors = $contractors->where('level2_id', $contractorLevel);
     }
     $contractors = $contractors->get();
+
+    if (request()->wantsJson() || request()->header('X-Inertia')) {
+        $productMaster = ProductMaster::where('cid', $cid)->orderBy('product_name')->get();
+        return \Inertia\Inertia::render('Manufacturing/Consumption/CreateEdit', [
+            'isEdit' => true,
+            'consumption' => $consumption,
+            'products' => $products,
+            'productMaster' => $productMaster,
+            'raw' => $raw,
+            'molds' => $molds,
+            'contractors' => $contractors,
+            'latestRates' => $latestRates,
+        ]);
+    }
 
     return view('consumption.edit', compact('consumption', 'products', 'raw', 'molds', 'contractors', 'latestRates'));
 }

@@ -67,6 +67,15 @@ class ProductionController extends Controller
             ->orderBy('v_no', 'desc')
             ->pluck('v_no');
 
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            return \Inertia\Inertia::render('Manufacturing/Production/Index', [
+                'productions' => $productions,
+                'vNoList' => $vNoList,
+                'items' => $items,
+                'filters' => $request->all(),
+            ]);
+        }
+
         return view('production.index', compact('productions', 'vNoList', 'items'));
     }
 
@@ -84,6 +93,10 @@ class ProductionController extends Controller
         $items = ItemMaster::where('cid', $cid)
             ->where('item_type', 'fp')
             ->get();
+
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            return \Inertia\Inertia::render('Manufacturing/Production/CreateEdit', compact('items'));
+        }
 
         return view('production.create', compact('items'));
     }
@@ -183,6 +196,14 @@ class ProductionController extends Controller
         $items = ItemMaster::where('cid', $cid)
             ->where('item_type', 'fp')
             ->get();
+
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            return \Inertia\Inertia::render('Manufacturing/Production/CreateEdit', [
+                'isEdit' => true,
+                'production' => $production,
+                'items' => $items,
+            ]);
+        }
 
         return view('production.edit', compact('production', 'items'));
     }

@@ -244,6 +244,27 @@ export default function AuthenticatedLayout({ header, children }) {
                             </li>
                         )}
 
+                        {/* Manufacturing Section */}
+                        {sidebarOpen && (
+                            <li className="nav-item">
+                                <div
+                                    className="d-flex align-items-center justify-content-between text-white-50 px-2 py-2 cursor-pointer"
+                                    onClick={() => toggleMenu('manufacturing')}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    <span><i className="mdi mdi-cog-outline me-2 text-info"></i> Manufacturing</span>
+                                    <i className={`mdi ${openMenus.manufacturing ? 'mdi-chevron-down' : 'mdi-chevron-right'}`}></i>
+                                </div>
+                                {openMenus.manufacturing && (
+                                    <ul className="nav flex-column ms-3 gap-1 border-start ps-2">
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/consumption">Consumption</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/consumption2">Consumption 2</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/production">Production</a></li>
+                                    </ul>
+                                )}
+                            </li>
+                        )}
+
                         {/* Reports Section */}
                         {sidebarOpen && (
                             <li className="nav-item">
