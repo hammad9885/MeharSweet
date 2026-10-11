@@ -161,9 +161,12 @@ Route::prefix('')->group(
 
         Route::get('/backup', [BackupController::class, 'runBackup'])->name('admin.backup');
 
-        Route::get('', function () {
-            return redirect()->route('login');
-        });
+        Route::get('/', function () {
+            if (\Illuminate\Support\Facades\Auth::check()) {
+                return redirect()->route('dashboard.admin');
+            }
+            return \Inertia\Inertia::render('Auth/Login');
+        })->name('home');
 
         Route::get('/react', function () {
             return \Inertia\Inertia::render('Welcome', [
