@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 @section('content')
     <div class="container-fluid">
 
@@ -8,7 +8,7 @@
                 <div class="page-title-box">
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Softix</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
                             <li class="breadcrumb-item active">Form Elements</li>
                         </ol>
@@ -57,7 +57,7 @@
                                             <!-- Add a hidden input for total amount -->
                                             <input type="hidden" id="totalAmount" name="total_amount" value="0">
 
-                                            <!-- ✅ Voucher date (only once for whole voucher) -->
+                                            <!-- âœ… Voucher date (only once for whole voucher) -->
                                             <div class="mb-3">
                                                 <label for="entryDate" class="form-label">Voucher Date</label>
                                                 <input type="date" id="entryDate"  name="voucher_date"

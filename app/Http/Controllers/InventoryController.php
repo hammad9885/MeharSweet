@@ -77,7 +77,7 @@ namespace App\Http\Controllers;
         }
 
         // 🔹 Create Item Master (form)
-        public function createitemmaster()
+        public function createitemmaster(Request $request)
         {
             $companyId = Auth::user()->cid;
             
@@ -86,9 +86,24 @@ namespace App\Http\Controllers;
             $nextSeq = str_pad(($lastItem->id ?? 0) + 1, 4, '0', STR_PAD_LEFT);
 
             $itemtypes = ItemType::where('cid', $companyId)->get();
+            if ($itemtypes->isEmpty()) {
+                $itemtypes = ItemType::all();
+            }
             $itemUnits = Units::where('cid', $companyId)->get();
+            if ($itemUnits->isEmpty()) {
+                $itemUnits = Units::all();
+            }
             $saleType = SaleType::where('cid', $companyId)->get();
             
+            if ($request->header('X-Inertia')) {
+                return \Inertia\Inertia::render('Inventory/CreateEdit', [
+                    'nextSeq'   => $nextSeq,
+                    'itemtypes' => $itemtypes,
+                    'itemUnits' => $itemUnits,
+                    'item'      => null,
+                ]);
+            }
+
             return view('inventory.create_item_master', get_defined_vars());
         }
 
@@ -130,108 +145,128 @@ namespace App\Http\Controllers;
         }
 
         // 🔹 Store Item Master
-    public function itemmaster(Request $request)
-    {
-        $companyId = Auth::user()->cid;
-// dd($request->all());
-    $request->validate([
-        'item_code' => 'required|string|max:255',
-        'type_id'   => 'required|exists:item_types,id',
-        'unit_id'   => 'required|exists:units,id',
-        'purchase'  => 'nullable|numeric|min:0',
-        'sale_rate' => 'nullable|numeric|min:0',
-       
+        public function itemmaster(Request $request)
+        {
+            $companyId = Auth::user()->cid;
 
+            $request->validate([
+                'name'       => 'nullable|string|max:255',
+                'item_code'  => 'nullable|string|max:255',
+                'type_id'    => 'required|exists:item_types,id',
+                'unit_id'    => 'required|exists:units,id',
+                'rate'       => 'nullable|numeric|min:0',
+                'purchase'   => 'nullable|numeric|min:0',
+                'sale_rate'  => 'nullable|numeric|min:0',
+                'urdu_title' => 'nullable|string|max:255',
+                'seq_number' => 'nullable|string|max:255',
+            ]);
 
-        // ✅ NEW FIELDS (ADD HERE)
-        'urdu_title' => 'nullable|string',
-     
-        'set_qty'    => 'nullable|integer',
-        'seq_number' => 'nullable|string',
-    'auto_load_on_consumption' => 'nullable',
-    'load_posting' => 'nullable',
-    ]);
+            $itemName = $request->input('name') ?: $request->input('item_code');
+            if (empty($itemName)) {
+                return redirect()->back()->withErrors(['name' => 'Name is required'])->withInput();
+            }
 
-    ItemMaster::create([
-        'cid'       => $companyId,
-        'item_code' => $request->item_code,
-        'type_id'   => $request->type_id,
-        'item_type' => $request->item_type,
-        'unit_id'   => $request->unit_id,
-        'purchase'  => $request->purchase,
-        'sale_rate' => $request->sale_rate,
+            $rate = $request->input('rate');
+            $purchase = $request->filled('rate') ? $rate : ($request->input('purchase') ?? 0);
+            $saleRate = $request->filled('rate') ? $rate : ($request->input('sale_rate') ?? 0);
+            $costPrice = $request->filled('rate') ? $rate : ($request->input('cost_price') ?? 0);
 
-  
-        'cost_price'=> $request->cost_price,
+            // Auto-determine item_type from selected type_id
+            $itemTypeModel = ItemType::find($request->type_id);
+            $itemType = $request->input('item_type') ?: ($itemTypeModel ? $itemTypeModel->item_type : 'rp');
 
-        // ✅ NEW FIELDS
-        'urdu_title' => $request->urdu_title,
-        'set_qty'    => $request->set_qty,
-        'seq_number' => $request->seq_number,
-        'auto_load_on_consumption' => $request->has('auto_load_on_consumption'),
-        'load_posting' => $request->has('load_posting'),
-    ]);
+            ItemMaster::create([
+                'cid'                      => $companyId,
+                'item_code'                => $itemName,
+                'type_id'                  => $request->type_id,
+                'item_type'                => $itemType,
+                'unit_id'                  => $request->unit_id,
+                'purchase'                 => $purchase,
+                'sale_rate'                => $saleRate,
+                'cost_price'               => $costPrice,
+                'urdu_title'               => $request->urdu_title,
+                'seq_number'               => $request->seq_number,
+                'auto_load_on_consumption' => $request->has('auto_load_on_consumption') ? 1 : 0,
+                'load_posting'             => 0,
+            ]);
 
-        return redirect()->route('inventory.itemmaster.list')
-            ->with('success', 'Item created successfully.');
-    }
-
+            return redirect()->route('inventory.itemmaster.list')
+                ->with('success', 'Item created successfully.');
+        }
 
         // 🔹 Edit Item Master
-    public function itemmasteredit($id)
-    {
-        $companyId   = Auth::user()->cid;
-        $itemMasters = ItemMaster::where('cid', $companyId)->findOrFail($id);
-            $itemtypes = ItemType::where('cid', $companyId)->get();
-        $itemUnits   = Units::where('cid', $companyId)->get();
-        $saleType    = SaleType::where('cid', $companyId)->get();
+        public function itemmasteredit(Request $request, $id)
+        {
+            $companyId   = Auth::user()->cid;
+            $itemMasters = ItemMaster::where('cid', $companyId)->find($id) ?: ItemMaster::findOrFail($id);
+            $itemtypes   = ItemType::where('cid', $companyId)->get();
+            if ($itemtypes->isEmpty()) {
+                $itemtypes = ItemType::all();
+            }
+            $itemUnits   = Units::where('cid', $companyId)->get();
+            if ($itemUnits->isEmpty()) {
+                $itemUnits = Units::all();
+            }
+            $saleType    = SaleType::where('cid', $companyId)->get();
 
-        return view('inventory.edit_item_master', compact('itemMasters', 'itemtypes', 'itemUnits', 'saleType'));
-    }
+            if ($request->header('X-Inertia')) {
+                return \Inertia\Inertia::render('Inventory/CreateEdit', [
+                    'nextSeq'   => $itemMasters->seq_number,
+                    'itemtypes' => $itemtypes,
+                    'itemUnits' => $itemUnits,
+                    'item'      => $itemMasters,
+                ]);
+            }
+
+            return view('inventory.edit_item_master', compact('itemMasters', 'itemtypes', 'itemUnits', 'saleType'));
+        }
+
         // 🔹 Update Item Master
         public function itemmasterupdate(Request $request, $id)
-    {
-        $companyId = Auth::user()->cid;
+        {
+            $companyId = Auth::user()->cid;
 
-        $request->validate([
-        'item_code' => 'required|string|max:255',
-        'type_id'   => 'required|exists:item_types,id',
-        'unit_id'   => 'required|exists:units,id',
-        'purchase'  => 'nullable|numeric|min:0',
-        'sale_rate' => 'nullable|numeric|min:0',
+            $request->validate([
+                'name'       => 'nullable|string|max:255',
+                'item_code'  => 'nullable|string|max:255',
+                'type_id'    => 'required|exists:item_types,id',
+                'unit_id'    => 'required|exists:units,id',
+                'rate'       => 'nullable|numeric|min:0',
+                'purchase'   => 'nullable|numeric|min:0',
+                'sale_rate'  => 'nullable|numeric|min:0',
+                'urdu_title' => 'nullable|string|max:255',
+                'seq_number' => 'nullable|string|max:255',
+            ]);
 
-        'item_type' => 'required|string|max:255',
+            $itemMaster = ItemMaster::where('cid', $companyId)->find($id) ?: ItemMaster::findOrFail($id);
 
-        // ✅ NEW FIELDS (ADD HERE)
-        'urdu_title' => 'nullable|string',
-        'set_qty'    => 'nullable|integer',
-        'seq_number' => 'nullable|string',
-    'auto_load_on_consumption' => 'nullable',
-    'load_posting' => 'nullable',
-    ]);
+            $itemName = $request->input('name') ?: $request->input('item_code');
+            if (empty($itemName)) {
+                return redirect()->back()->withErrors(['name' => 'Name is required'])->withInput();
+            }
 
-        $itemMaster = ItemMaster::where('cid', $companyId)->findOrFail($id);
-        $oldPurchase = $itemMaster->purchase;
+            $rate = $request->input('rate');
+            $purchase = $request->filled('rate') ? $rate : ($request->input('purchase') ?? $itemMaster->purchase);
+            $saleRate = $request->filled('rate') ? $rate : ($request->input('sale_rate') ?? $itemMaster->sale_rate);
+            $costPrice = $request->filled('rate') ? $rate : ($request->input('cost_price') ?? $itemMaster->cost_price);
 
-        $itemMaster->update([
-        'item_code' => $request->item_code,
-        'type_id'   => $request->type_id,
-        'unit_id'   => $request->unit_id,
-        'purchase'  => $request->purchase,
-        'sale_rate' => $request->sale_rate,
-      
-        'cost_price'=> $request->cost_price,
-        'item_type' => $request->item_type,
+            $itemTypeModel = ItemType::find($request->type_id);
+            $itemType = $request->input('item_type') ?: ($itemTypeModel ? $itemTypeModel->item_type : ($itemMaster->item_type ?? 'rp'));
 
-        // ✅ NEW FIELDS
-        'urdu_title' => $request->urdu_title,
-        'set_qty'    => $request->set_qty,
-        'seq_number' => $request->seq_number,
-        'auto_load_on_consumption' => $request->has('auto_load_on_consumption'),
-        'load_posting' => $request->has('load_posting'),
-    ]);
-        return redirect()->route('inventory.itemmaster.list')->with('success', 'Item Master updated successfully');
-    }
+            $itemMaster->update([
+                'item_code'   => $itemName,
+                'type_id'     => $request->type_id,
+                'item_type'   => $itemType,
+                'unit_id'     => $request->unit_id,
+                'purchase'    => $purchase,
+                'sale_rate'   => $saleRate,
+                'cost_price'  => $costPrice,
+                'urdu_title'  => $request->urdu_title,
+                'seq_number'  => $request->seq_number ?? $itemMaster->seq_number,
+            ]);
+
+            return redirect()->route('inventory.itemmaster.list')->with('success', 'Item Master updated successfully');
+        }
 
 
         // 🔹 List Item Logs

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 @section('content')
     <div class="container-fluid">
         <!-- start page title -->
@@ -7,7 +7,7 @@
                 <div class="page-title-box">
                     <div class="page-title-right">
                         <ol class="breadcrumb m-0">
-                            <li class="breadcrumb-item"><a href="javascript: void(0);">Softix</a></li>
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
                             <li class="breadcrumb-item active">Edit Cash Receipt</li>
                         </ol>
@@ -237,7 +237,7 @@
     `;
                 entriesTable.appendChild(newRow);
 
-                // ✅ re-init Select2 for this row
+                // âœ… re-init Select2 for this row
                 $(newRow).find('.select2').select2({
                     width: '100%'
                 });

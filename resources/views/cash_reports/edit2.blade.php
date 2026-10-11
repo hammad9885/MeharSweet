@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 @section('content')
 <div class="container-fluid">
     <!-- start page title -->
@@ -7,7 +7,7 @@
             <div class="page-title-box">
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Softix</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Forms</a></li>
                         <li class="breadcrumb-item active">Edit Cash Payment</li>
                     </ol>
@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <td><button type="button" class="btn btn-danger btn-sm remove-entry">Delete</button></td>
         `;
         entriesTable.appendChild(newRow);
-         // ✅ re-init Select2 for this row
+         // âœ… re-init Select2 for this row
     $(newRow).find('.select2').select2({ width: '100%' });
         updateSrNo();
         bindRemove(newRow);
