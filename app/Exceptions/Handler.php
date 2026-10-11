@@ -26,5 +26,13 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+
+        $this->renderable(function (\Illuminate\Database\QueryException $e, $request) {
+            if (str_contains($e->getMessage(), 'refused') || str_contains($e->getMessage(), 'SQLSTATE[HY000] [2002]')) {
+                return back()->withErrors([
+                    'email' => 'MySQL Server Offline: Aapke computer par MySQL (port 3306) chal nahi raha. Mehar Sweets database connect karne ke liye XAMPP/MySQL start karein.',
+                ]);
+            }
+        });
     }
 }
