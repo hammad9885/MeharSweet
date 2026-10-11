@@ -14,6 +14,16 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customers::with('accountMaster')->where('cid', auth()->user()->cid)->get();
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            $customerNames = Customers::where('cid', auth()->user()->cid)->pluck('name')->unique();
+            $categories = CustomerCategory::where('cid', auth()->user()->cid)->get();
+            return \Inertia\Inertia::render('Sales/Customers/Index', [
+                'customers' => $customers,
+                'customerNames' => $customerNames,
+                'categories' => $categories,
+                'filters' => request()->all()
+            ]);
+        }
         return view('customers.index', compact('customers'));
     }
 

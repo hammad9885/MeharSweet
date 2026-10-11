@@ -56,7 +56,19 @@ class SaleReturnInvoiceController extends Controller
         }
 
         $invoices = $query->orderByDesc('v_no')->get();
-        // dd($invoices);
+
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            $user = Auth::user()->cid;
+            $customers = Customer::where('cid', $user)->get();
+            $items = ProductMaster::where('cid', $user)->get();
+            return \Inertia\Inertia::render('Sales/SaleReturns/Index', [
+                'invoices' => $invoices,
+                'customers' => $customers,
+                'items' => $items,
+                'filters' => request()->all()
+            ]);
+        }
+
         return view('sale_return_invoices.index', compact('invoices'));
     }
 

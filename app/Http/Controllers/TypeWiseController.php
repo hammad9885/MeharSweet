@@ -113,6 +113,17 @@ class TypeWiseController extends Controller
         $data = $result['data'];
         $return = $result['return'];
 
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            return \Inertia\Inertia::render('Sales/Reports/CategoryWiseSale', [
+                'data' => $data,
+                'return' => $return,
+                'summarize' => $summarize,
+                'itemsTypes' => $itemsTypes,
+                'typeId' => $typeId,
+                'filters' => request()->all()
+            ]);
+        }
+
         return view('ItemReportbysale.type', compact('data', 'return', 'summarize', 'itemsTypes', 'typeId'));
     }
 

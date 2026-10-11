@@ -206,8 +206,13 @@ export default function AuthenticatedLayout({ header, children }) {
                                 </div>
                                 {openMenus.sales && (
                                     <ul className="nav flex-column ms-3 gap-1 border-start ps-2">
-                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/delivery_challan">Delivery Challan</a></li>
-                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/confectionery">Confectionery</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/sale_invoices">Sale Invoice</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/sale-order">Sale Order</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/sale-order-dc">Delivery Challan (SOR)</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/sale_return_invoices">Sale Return</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/customers">Customers</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/customer-categories">Customer Categories</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/transport_companies">Transport Companies</a></li>
                                         <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/wastage_sale">Wastage Sale</a></li>
                                     </ul>
                                 )}
@@ -227,7 +232,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                 </div>
                                 {openMenus.reports && (
                                     <ul className="nav flex-column ms-3 gap-1 border-start ps-2">
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/itemwisesale">Item Wise Sale</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/typewisesale">Category Wise Sale</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/customerwise-report">Customer Wise Sale</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/salewise-report">Sale Report</a></li>
                                         <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/trialreport">Trial Balance</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/ledger">General Ledger</a></li>
                                         <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/daily_statement/reports">Daily Statement</a></li>
                                         <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/expense/reports">Expense Reports</a></li>
                                     </ul>

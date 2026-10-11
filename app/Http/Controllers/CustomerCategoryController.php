@@ -11,6 +11,11 @@ class CustomerCategoryController extends Controller
     public function index()
     {
         $categories = CustomerCategory::where('cid', Auth::user()->cid)->get();
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            return \Inertia\Inertia::render('Sales/CustomerCategories/Index', [
+                'categories' => $categories
+            ]);
+        }
         return view('customer_categories.index', compact('categories'));
     }
 

@@ -76,6 +76,22 @@ class SaleOrderController extends Controller
                 return $items->pluck('v_no')->unique()->values();
             });
 
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            return \Inertia\Inertia::render('Sales/SaleOrders/Index', [
+                'orders' => $orders,
+                'totalOrders' => $totalOrders,
+                'customers' => $customers,
+                'products' => $products,
+                'dcTotals' => $dcTotals,
+                'dcRefs' => $dcRefs,
+                'startDate' => $startDate,
+                'endDate' => $endDate,
+                'totalItemQty' => $totalItemQty,
+                'selectedItemName' => $selectedItemName,
+                'filters' => request()->all()
+            ]);
+        }
+
         return view('sale_order.index', compact('orders', 'totalOrders', 'customers', 'products', 'dcTotals', 'dcRefs', 'startDate', 'endDate', 'totalItemQty', 'selectedItemName'));
     }
 
@@ -93,6 +109,11 @@ class SaleOrderController extends Controller
         $products = ProductMaster::where('cid', $user)->where('finished', 1)->get();
         $transportCompanies = TransportCompany::where('cid', $user)->get();
         $referenceNames = ReferenceName::where('cid', $user)->orderByDesc('id')->get();
+
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            return \Inertia\Inertia::render('Sales/SaleOrders/CreateEdit', compact('customers', 'products', 'transportCompanies', 'referenceNames'));
+        }
+
         return view('sale_order.create', compact('customers', 'products', 'transportCompanies', 'referenceNames'));
     }
 
@@ -210,6 +231,18 @@ class SaleOrderController extends Controller
         $products = ProductMaster::where('cid', $user)->where('finished', 1)->get();
         $transportCompanies = TransportCompany::where('cid', $user)->get();
         $referenceNames = ReferenceName::where('cid', $user)->orderByDesc('id')->get();
+
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            return \Inertia\Inertia::render('Sales/SaleOrders/CreateEdit', [
+                'isEdit' => true,
+                'order' => $order,
+                'customers' => $customers,
+                'products' => $products,
+                'transportCompanies' => $transportCompanies,
+                'referenceNames' => $referenceNames
+            ]);
+        }
+
         return view('sale_order.edit', compact('order', 'customers', 'products', 'transportCompanies', 'referenceNames'));
     }
 

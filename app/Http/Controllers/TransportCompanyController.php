@@ -12,6 +12,11 @@ class TransportCompanyController extends Controller
     {
         $user = Auth::user()->cid;
         $transportCompanies = TransportCompany::where('cid', $user)->orderByDesc('id')->get();
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            return \Inertia\Inertia::render('Sales/TransportCompanies/Index', [
+                'transportCompanies' => $transportCompanies
+            ]);
+        }
         return view('transport_companies.index', compact('transportCompanies'));
     }
 

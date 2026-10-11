@@ -182,6 +182,18 @@ class SaleInvoices extends Controller
 
         $invoices = $query->orderByDesc('v_no')->get();
 
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            $user = Auth::user()->cid;
+            $customers = Customers::where('cid', $user)->get();
+            $items = ItemMaster::where('cid', $user)->get();
+            return \Inertia\Inertia::render('Sales/SaleInvoices/Index', [
+                'invoices' => $invoices,
+                'customers' => $customers,
+                'items' => $items,
+                'filters' => request()->all(),
+            ]);
+        }
+
         return view('sale_invoices.index', compact('invoices'));
     }
 
@@ -253,6 +265,10 @@ class SaleInvoices extends Controller
         }
 
         $referenceNames = ReferenceName::where('cid', $user)->orderByDesc('id')->get();
+
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            return \Inertia\Inertia::render('Sales/SaleInvoices/CreateEdit', compact('suppliers', 'items', 'transportCompanies', 'preselectedSupplier', 'preselectedDc', 'preselectedDcDate', 'preselectedDcRefNameId', 'preselectedDcFreight', 'preselectedDcBiltyNo', 'preselectedDcTransportCompanyId', 'referenceNames', 'custTransportMap', 'custBiltyMap'));
+        }
 
         return view('sale_invoices.create', compact('suppliers', 'items', 'transportCompanies', 'preselectedSupplier', 'preselectedDc', 'preselectedDcDate', 'preselectedDcRefNameId', 'preselectedDcFreight', 'preselectedDcBiltyNo', 'preselectedDcTransportCompanyId', 'referenceNames', 'custTransportMap', 'custBiltyMap'));
     }
@@ -511,6 +527,13 @@ class SaleInvoices extends Controller
             if ($tcId) {
                 $custTransportMap[$sup->acc_id] = $tcId;
             }
+        }
+
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            return \Inertia\Inertia::render('Sales/SaleInvoices/CreateEdit', array_merge(
+                compact('purchaseMaster', 'invoiceItems', 'items', 'suppliers', 'maxVoucherNo', 'dcCartonData', 'dcQpc', 'productQpc', 'preBal', 'closingBalance', 'referenceNames', 'transportCompanies', 'custTransportMap', 'custBiltyMap'),
+                ['isEdit' => true]
+            ));
         }
 
         return view('sale_invoices.edit', compact('purchaseMaster', 'invoiceItems', 'items', 'suppliers', 'maxVoucherNo', 'dcCartonData', 'dcQpc', 'productQpc', 'preBal', 'closingBalance', 'referenceNames', 'transportCompanies', 'custTransportMap', 'custBiltyMap'));
