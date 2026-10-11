@@ -216,6 +216,9 @@ export default function AuthenticatedLayout({ header, children }) {
                                         <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/wastage_sale">Wastage Sale</a></li>
                                     </ul>
                                 )}
+                            </li>
+                        )}
+
                         {/* Purchase Section */}
                         {sidebarOpen && (
                             <li className="nav-item">
