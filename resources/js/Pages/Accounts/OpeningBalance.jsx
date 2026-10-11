@@ -16,7 +16,7 @@ export default function OpeningBalance({ openBals = [], startDate = '', endDate 
 
     return (
         <AuthenticatedLayout header="Opening Balance">
-            <Head title="Opening Balance - GST ERP" />
+            <Head title="Opening Balance - Real ERP" />
 
             <div className="card shadow-sm border-0">
                 <div className="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">

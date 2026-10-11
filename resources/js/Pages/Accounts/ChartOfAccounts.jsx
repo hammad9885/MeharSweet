@@ -57,7 +57,7 @@ export default function ChartOfAccounts({
 
     return (
         <AuthenticatedLayout header="Chart of Accounts (COA)">
-            <Head title="Chart of Accounts - GST ERP" />
+            <Head title="Chart of Accounts - Real ERP" />
 
             {/* Filter Bar */}
             <div className="card shadow-sm border-0 mb-3 no-print">

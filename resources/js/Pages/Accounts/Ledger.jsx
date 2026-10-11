@@ -69,7 +69,7 @@ export default function Ledger({
 
     return (
         <AuthenticatedLayout header="General Ledger Statement">
-            <Head title="Ledger - GST ERP" />
+            <Head title="Ledger - Real ERP" />
 
             {/* Filter Bar */}
             <div className="card shadow-sm border-0 mb-3 no-print">

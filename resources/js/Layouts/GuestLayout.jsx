@@ -23,7 +23,7 @@ export default function GuestLayout({ children, title = 'Sign In' }) {
                             <div className="card shadow-lg border-0" style={{ borderRadius: '12px', overflow: 'hidden' }}>
                                 {/* Header / Logo */}
                                 <div className="card-header py-4 text-center bg-primary text-white">
-                                    <h3 className="m-0 fw-bold tracking-wide">GST Real ERP</h3>
+                                    <h3 className="m-0 fw-bold tracking-wide">Real ERP</h3>
                                     <p className="m-0 opacity-75 small">Enterprise Resource Planning</p>
                                 </div>
 

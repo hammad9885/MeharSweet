@@ -22,7 +22,7 @@ export default function Level2({ level2s = [] }) {
 
     return (
         <AuthenticatedLayout header="Level 2 Accounts">
-            <Head title="Level 2 Accounts - GST ERP" />
+            <Head title="Level 2 Accounts - Real ERP" />
 
             <div className="card shadow-sm border-0">
                 <div className="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">

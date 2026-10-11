@@ -14,7 +14,7 @@ export default function Dashboard({ stats = {} }) {
 
     return (
         <AuthenticatedLayout header="Analytics Dashboard">
-            <Head title="Admin Dashboard - GST ERP" />
+            <Head title="Admin Dashboard - Real ERP" />
 
             {/* Page Header */}
             <div className="row mb-3">

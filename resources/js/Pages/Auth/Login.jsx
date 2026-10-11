@@ -138,7 +138,7 @@ export default function Login({ status, canResetPassword }) {
                             </div>
 
                             <footer className="footer footer-alt text-center mt-3 text-muted small">
-                                2018 - {new Date().getFullYear()} © GST ERP
+                                2018 - {new Date().getFullYear()} © Real ERP
                             </footer>
                         </div>
                     </div>

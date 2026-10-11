@@ -35,7 +35,7 @@ export default function PayablesReceivables({
 
     return (
         <AuthenticatedLayout header={title}>
-            <Head title={`${title} - GST ERP`} />
+            <Head title={`${title} - Real ERP`} />
 
             {/* Filter Bar */}
             <div className="card shadow-sm border-0 mb-3 no-print">

@@ -38,7 +38,7 @@ export default function TrialBalance({
 
     return (
         <AuthenticatedLayout header="Trial Balance Statement">
-            <Head title="Trial Balance - GST ERP" />
+            <Head title="Trial Balance - Real ERP" />
 
             {/* Filter Bar */}
             <div className="card shadow-sm border-0 mb-3 no-print">

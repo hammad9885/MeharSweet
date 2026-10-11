@@ -55,7 +55,7 @@ export default function ItemMaster({ itemmasters = [], items = {}, itemTypes = {
 
     return (
         <AuthenticatedLayout header="Registered Items (Item Master)">
-            <Head title="Item Master - GST ERP" />
+            <Head title="Item Master - Real ERP" />
 
             {/* Filter Bar */}
             <div className="card shadow-sm border-0 mb-3 no-print">

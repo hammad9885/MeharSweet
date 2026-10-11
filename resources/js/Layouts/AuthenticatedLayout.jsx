@@ -124,7 +124,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     backgroundColor: '#2b333e'
                 }}>
                     <a href="/admin/dashboard" className="text-white text-decoration-none fw-bold fs-5">
-                        {sidebarOpen ? 'GST REAL ERP' : 'GST'}
+                        {sidebarOpen ? 'MEHAR SWEETS ERP' : 'ERP'}
                     </a>
                 </div>
 
@@ -323,7 +323,7 @@ export default function AuthenticatedLayout({ header, children }) {
 
                 {/* Footer */}
                 <footer className="footer bg-white border-top py-3 px-4 text-muted small text-center text-sm-start d-flex justify-content-between">
-                    <div>© {new Date().getFullYear()} Real ERP - GST Maintenance. All rights reserved.</div>
+                    <div>© {new Date().getFullYear()} Real ERP. All rights reserved.</div>
                     <div>Powered by Laravel + React</div>
                 </footer>
             </div>

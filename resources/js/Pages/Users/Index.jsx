@@ -21,7 +21,7 @@ export default function UserIndex({ users = [] }) {
 
     return (
         <AuthenticatedLayout header="User Management">
-            <Head title="User Management - GST ERP" />
+            <Head title="User Management - Real ERP" />
 
             <div className="card shadow-sm border-0">
                 <div className="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">

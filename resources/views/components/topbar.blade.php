@@ -71,7 +71,7 @@
             <!-- Logo and Sidebar Toggle -->
             <div class="d-flex align-items-center">
                 <a href="/" class="logo-topbar">
-                    <span class="logo-lg">GST</span>
+                    <span class="logo-lg">ERP</span>
                 </a>
                 <button class="btn btn-icon btn-sm button-toggle-menu" type="button" aria-label="Toggle sidebar">
                     <i class="mdi mdi-menu"></i>
@@ -110,7 +110,7 @@
                 <li class="dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="mdi mdi-account-circle fs-3" style="color:#6c757d;"></i>
-                        <span class="d-none d-lg-inline-block ms-2 fw-semibold">GST!</span>
+                        <span class="d-none d-lg-inline-block ms-2 fw-semibold">Admin!</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
                         <h6 class="dropdown-header">Welcome!</h6>
