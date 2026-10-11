@@ -216,6 +216,31 @@ export default function AuthenticatedLayout({ header, children }) {
                                         <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/wastage_sale">Wastage Sale</a></li>
                                     </ul>
                                 )}
+                        {/* Purchase Section */}
+                        {sidebarOpen && (
+                            <li className="nav-item">
+                                <div
+                                    className="d-flex align-items-center justify-content-between text-white-50 px-2 py-2 cursor-pointer"
+                                    onClick={() => toggleMenu('purchase')}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    <span><i className="mdi mdi-cart-arrow-down me-2 text-warning"></i> Purchase</span>
+                                    <i className={`mdi ${openMenus.purchase ? 'mdi-chevron-down' : 'mdi-chevron-right'}`}></i>
+                                </div>
+                                {openMenus.purchase && (
+                                    <ul className="nav flex-column ms-3 gap-1 border-start ps-2">
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/purchase_invoices">Purchase Invoice</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/item-based-purchase">Item Based Purchase</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/purchase_return_invoices">Purchase Return</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/Puritemwisesale">Item Wise Purchase</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/typewisePurchase">Category Wise Purchase</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/contractors">Contractor</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/suppliers">Supplier</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/supplierwise-report">Supplier Wise Report</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/Purchasewise-report">Purchase Report</a></li>
+                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/contractor-lot-posting">Contractor Lot Posting</a></li>
+                                    </ul>
+                                )}
                             </li>
                         )}
 

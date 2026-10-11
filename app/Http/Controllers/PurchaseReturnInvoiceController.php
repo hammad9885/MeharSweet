@@ -50,6 +50,17 @@ class PurchaseReturnInvoiceController extends Controller
 
         $invoices = $query->orderByDesc('v_no')->get();
 
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            $suppliers = Supplier::where('cid', $user)->get();
+            $items = ItemMaster::where('cid', $user)->get();
+            return \Inertia\Inertia::render('Purchase/PurchaseReturns/Index', [
+                'invoices' => $invoices,
+                'suppliers' => $suppliers,
+                'items' => $items,
+                'filters' => request()->all(),
+            ]);
+        }
+
         return view('purchase_return_invoices.index', compact('invoices'));
     }
 

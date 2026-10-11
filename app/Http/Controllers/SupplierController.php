@@ -18,6 +18,10 @@ class SupplierController extends Controller
 
         $suppliers = Supplier::sortByOrderNumber($suppliers);
 
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            return \Inertia\Inertia::render('Purchase/Suppliers/Index', compact('suppliers'));
+        }
+
         return view('suppliers.index', compact('suppliers'));
     }
 

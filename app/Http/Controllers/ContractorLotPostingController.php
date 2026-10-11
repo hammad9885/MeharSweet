@@ -123,6 +123,16 @@ class ContractorLotPostingController extends Controller
         }
         $contractors = $contractors->get();
 
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            return \Inertia\Inertia::render('Purchase/ContractorLotPosting/Index', [
+                'postings' => $masters,
+                'masters' => $masters,
+                'products' => $products,
+                'contractors' => $contractors,
+                'filters' => $request->all(),
+            ]);
+        }
+
         return view('contractor-lot-posting.index', compact('masters', 'products', 'contractors'));
     }
 

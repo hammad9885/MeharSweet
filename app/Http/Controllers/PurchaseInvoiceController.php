@@ -49,6 +49,17 @@ class PurchaseInvoiceController extends Controller
 
         $invoices = $query->orderByDesc('v_no')->get();
 
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            $suppliers = Supplier::where('cid', $user)->get();
+            $items = ItemMaster::where('cid', $user)->get();
+            return \Inertia\Inertia::render('Purchase/PurchaseInvoices/Index', [
+                'invoices' => $invoices,
+                'suppliers' => $suppliers,
+                'items' => $items,
+                'filters' => $request->all(),
+            ]);
+        }
+
         return view('purchase_invoices.index', compact('invoices'));
     }
 
@@ -70,6 +81,10 @@ class PurchaseInvoiceController extends Controller
             ->get()
             ->unique('item_id')
             ->pluck('rate', 'item_id');
+
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            return \Inertia\Inertia::render('Purchase/PurchaseInvoices/CreateEdit', compact('suppliers', 'items', 'contractors', 'lastPurchaseRates'));
+        }
 
         return view('purchase_invoices.create', compact('suppliers', 'items', 'contractors', 'lastPurchaseRates'));
     }
@@ -232,6 +247,13 @@ class PurchaseInvoiceController extends Controller
             ->get()
             ->unique('item_id')
             ->pluck('rate', 'item_id');
+
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            return \Inertia\Inertia::render('Purchase/PurchaseInvoices/CreateEdit', array_merge(
+                compact('purchaseMaster', 'invoiceItems', 'items', 'suppliers', 'contractors', 'maxVoucherNo', 'lastPurchaseRates'),
+                ['isEdit' => true]
+            ));
+        }
 
         return view('purchase_invoices.edit', compact('purchaseMaster', 'invoiceItems', 'items', 'suppliers', 'contractors', 'maxVoucherNo', 'lastPurchaseRates'));
     }
@@ -429,6 +451,16 @@ class PurchaseInvoiceController extends Controller
         }
 
         $invoices = $query->orderByDesc('v_no')->get();
+
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            return \Inertia\Inertia::render('Purchase/Reports/ItemBasedPurchase', [
+                'invoices' => $invoices,
+                'suppliers' => $suppliers,
+                'items' => $items,
+                'vouchers' => $vouchers,
+                'filters' => $request->all(),
+            ]);
+        }
 
         return view('purchase_reports.purchase_invoice_report',
             compact('invoices', 'suppliers', 'items', 'vouchers'));

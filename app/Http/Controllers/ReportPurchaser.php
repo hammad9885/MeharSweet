@@ -77,6 +77,15 @@ class ReportPurchaser extends Controller
                 ];
             });
 
+            if (request()->wantsJson() || request()->header('X-Inertia')) {
+                return \Inertia\Inertia::render('Purchase/Reports/ItemWisePurchase', [
+                    'report' => $report,
+                    'summarize' => 1,
+                    'items' => $items,
+                    'filters' => $request->all(),
+                ]);
+            }
+
             return view('PurchaseReports.ItemWise', compact('report', 'summarize', 'items'));
         }
 
@@ -138,6 +147,16 @@ class ReportPurchaser extends Controller
 
         $data = $saleQuery->orderBy('v_no', 'DESC')->get();
         $return = $returnQuery->orderBy('v_no', 'DESC')->get();
+
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            return \Inertia\Inertia::render('Purchase/Reports/ItemWisePurchase', [
+                'items' => $items,
+                'data' => $data,
+                'return' => $return,
+                'summarize' => 0,
+                'filters' => $request->all(),
+            ]);
+        }
 
         return view('PurchaseReports.ItemWise', compact('items', 'data', 'return', 'summarize'));
     }
@@ -225,6 +244,18 @@ class ReportPurchaser extends Controller
         // dd($sales);
         // dd($returns);
 
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            $suppliers = \App\Models\Supplier::where('cid', auth()->user()->cid)->get();
+            return \Inertia\Inertia::render('Purchase/Reports/SupplierWisePurchase', [
+                'data' => $data,
+                'startDate' => $startDate,
+                'endDate' => $endDate,
+                'return' => $return,
+                'suppliers' => $suppliers,
+                'filters' => $request->all(),
+            ]);
+        }
+
         return view('PurchaseReports.SupplierWise', compact('data', 'startDate', 'endDate', 'return'));
     }
     public function saleWise(Request $request)
@@ -293,6 +324,15 @@ class ReportPurchaser extends Controller
         $data = $saleQuery->orderBy('v_no', 'DESC')->get();
         $return = $returnQuery->orderBy('v_no', 'DESC')->get();
 
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            return \Inertia\Inertia::render('Purchase/Reports/PurchaseReport', [
+                'data' => $data,
+                'startDate' => $startDate,
+                'endDate' => $endDate,
+                'return' => $return,
+                'filters' => $request->all(),
+            ]);
+        }
 
         return view('PurchaseReports.PurchaseWise', compact('data', 'startDate', 'endDate', 'return'));
     }
@@ -387,6 +427,16 @@ class ReportPurchaser extends Controller
                 ];
             });
 
+            if (request()->wantsJson() || request()->header('X-Inertia')) {
+                return \Inertia\Inertia::render('Purchase/Reports/CategoryWisePurchase', [
+                    'report' => $report,
+                    'summarize' => 1,
+                    'itemsTypes' => $itemsTypes,
+                    'typeId' => $typeId,
+                    'filters' => $request->all(),
+                ]);
+            }
+
             return view('PurchaseReports.TypeWise', compact('report', 'summarize', 'itemsTypes', 'typeId'));
         }
 
@@ -397,6 +447,17 @@ class ReportPurchaser extends Controller
         $result = $this->getItemDataByType($typeId, $startDate, $endDate);
         $data = $result['data'];
         $return = $result['return'];
+
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            return \Inertia\Inertia::render('Purchase/Reports/CategoryWisePurchase', [
+                'data' => $data,
+                'return' => $return,
+                'summarize' => 0,
+                'itemsTypes' => $itemsTypes,
+                'typeId' => $typeId,
+                'filters' => $request->all(),
+            ]);
+        }
 
         return view('PurchaseReports.TypeWise', compact('data', 'return', 'summarize', 'itemsTypes', 'typeId'));
     }

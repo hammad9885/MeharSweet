@@ -14,6 +14,11 @@ class ContractorController extends Controller
     {
         $user = Auth::user()->cid;
         $contractors = Contractor::where('cid', $user)->get();
+
+        if (request()->wantsJson() || request()->header('X-Inertia')) {
+            return \Inertia\Inertia::render('Purchase/Contractors/Index', compact('contractors'));
+        }
+
         return view('contractors.index', compact('contractors'));
     }
 
