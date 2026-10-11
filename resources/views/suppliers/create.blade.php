@@ -1,18 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
+<div class="container py-4">
+    <div class="row mb-3">
         <div class="col-12">
-            <div class="page-title-box">
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Hyper</a></li>
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                        <li class="breadcrumb-item active">Data Tables</li>
-                    </ol>
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h4 class="page-title mb-0">Add Supplier</h4>
+                    <small class="text-muted">Create a new supplier</small>
                 </div>
-                <h4 class="page-title">Add Suppliers</h4>
+                <a href="{{ route('suppliers.index') }}" class="btn btn-outline-secondary">
+                    <i class="mdi mdi-arrow-left"></i> Back to Suppliers
+                </a>
             </div>
         </div>
     </div>
@@ -27,86 +26,64 @@
         </div>
     @endif
 
-    <div class="card">
+    <div class="card shadow-sm border-0">
         <div class="card-body">
             <form action="{{ route('suppliers.store') }}" method="POST">
                 @csrf
 
                 <div class="row">
 
+                    <!-- 1. Auto-generate ID -->
                     <div class="col-md-6 mb-3">
-                        <label>Sequence Number</label>
-                        <input type="text" name="seq_number" value="{{ $next_id }}" class="form-control" readonly>
+                        <label class="form-label fw-semibold">Auto-generate ID</label>
+                        <input type="text" name="seq_number" value="{{ $next_id }}" class="form-control bg-light" readonly>
+                        <small class="text-muted">System assigned ID</small>
                     </div>
 
+                    <!-- 2. Name -->
                     <div class="col-md-6 mb-3">
-                        <label>Order Number</label>
-                        <input type="text" name="order_number" value="{{ old('order_number') }}" class="form-control @error('order_number') is-invalid @enderror">
-                        @error('order_number')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label>Name</label>
-                        <input type="text" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" required>
+                        <label class="form-label fw-semibold">Name <span class="text-danger">*</span></label>
+                        <input type="text" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" placeholder="Enter supplier name" required autofocus>
                         @error('name')
-                            <span class="text-danger">{{ $message }}</span>
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
+                    <!-- 3. Urdu Name -->
                     <div class="col-md-6 mb-3">
-                        <label>Email</label>
-                        <input type="email" name="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror">
-                        @error('email')
-                            <span class="text-danger">{{ $message }}</span>
+                        <label class="form-label fw-semibold">Urdu Name</label>
+                        <input type="text" name="urdu_title" value="{{ old('urdu_title') }}" placeholder="اردو نام درج کریں" class="form-control @error('urdu_title') is-invalid @enderror" dir="rtl">
+                        @error('urdu_title')
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
+                    <!-- 4. Number -->
                     <div class="col-md-6 mb-3">
-                        <label>CNIC</label>
-                        <input type="text" name="cnic" value="{{ old('cnic') }}" class="form-control @error('cnic') is-invalid @enderror">
-                        @error('cnic')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label>Urdu Title</label>
-                        <input type="text" name="mobile" value="{{ old('mobile') }}" placeholder="Enter Urdu title" class="form-control @error('mobile') is-invalid @enderror">
+                        <label class="form-label fw-semibold">Number</label>
+                        <input type="text" name="mobile" value="{{ old('mobile') }}" placeholder="Enter phone/mobile number" class="form-control @error('mobile') is-invalid @enderror">
                         @error('mobile')
-                            <span class="text-danger">{{ $message }}</span>
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
+                    <!-- 5. City -->
                     <div class="col-md-6 mb-3">
-                        <label>City</label>
-                        <input type="text" name="city" value="{{ old('city') }}" class="form-control @error('city') is-invalid @enderror">
+                        <label class="form-label fw-semibold">City</label>
+                        <input type="text" name="city" value="{{ old('city') }}" placeholder="Enter city" class="form-control @error('city') is-invalid @enderror">
                         @error('city')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label>Address</label>
-                        <input type="text" name="address" value="{{ old('address') }}" class="form-control @error('address') is-invalid @enderror">
-                        @error('address')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label>NTN</label>
-                        <input type="text" name="ntn" value="{{ old('ntn') }}" class="form-control @error('ntn') is-invalid @enderror">
-                        @error('ntn')
-                            <span class="text-danger">{{ $message }}</span>
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
                 </div>
 
-                <button type="submit" class="btn btn-success">Save</button>
-                <a href="{{ route('suppliers.index') }}" class="btn btn-secondary">Cancel</a>
+                <div class="d-flex justify-content-end gap-2 mt-3">
+                    <a href="{{ route('suppliers.index') }}" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="mdi mdi-check"></i> Save Supplier
+                    </button>
+                </div>
             </form>
         </div>
     </div>
