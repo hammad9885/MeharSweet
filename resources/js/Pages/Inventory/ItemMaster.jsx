@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Head, router } from '@inertiajs/react';
+import { Head, router, Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 export default function ItemMaster({ itemmasters = [], items = {}, itemTypes = {}, filters = {} }) {
@@ -105,9 +105,9 @@ export default function ItemMaster({ itemmasters = [], items = {}, itemTypes = {
             <div className="card shadow-sm border-0">
                 <div className="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
                     <div className="d-flex align-items-center gap-2">
-                        <a href="/inventory/create/itemmaster" className="btn btn-primary no-print">
+                        <Link href="/inventory/create/itemmaster" className="btn btn-primary no-print">
                             <i className="mdi mdi-plus-circle me-1"></i> Add New Item
-                        </a>
+                        </Link>
                         <button type="button" className="btn btn-outline-secondary no-print" onClick={handlePrint}>
                             <i className="mdi mdi-printer me-1"></i> Print Table
                         </button>
@@ -159,13 +159,13 @@ export default function ItemMaster({ itemmasters = [], items = {}, itemTypes = {
                                             <td>{item.itemunits?.name || 'N/A'}</td>
                                             <td className="text-center no-print">
                                                 <div className="btn-group btn-group-sm">
-                                                    <a
+                                                    <Link
                                                         href={`/inventory/itemmaster/${item.id}/edit`}
                                                         className="btn btn-outline-primary"
                                                         title="Edit"
                                                     >
                                                         <i className="mdi mdi-pencil"></i>
-                                                    </a>
+                                                    </Link>
                                                     <button
                                                         type="button"
                                                         className="btn btn-outline-danger"

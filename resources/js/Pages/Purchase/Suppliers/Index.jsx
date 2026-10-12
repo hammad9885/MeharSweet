@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { router } from '@inertiajs/react';
+import { router, Link } from '@inertiajs/react';
 
 export default function Index({ suppliers = [] }) {
     const [search, setSearch] = useState('');
@@ -29,10 +29,10 @@ export default function Index({ suppliers = [] }) {
                         <h3 className="fw-bold text-dark mb-1">Suppliers</h3>
                         <p className="text-muted small mb-0">Manage raw material vendors, order numbers, contact details, and locations</p>
                     </div>
-                    <a href="/suppliers/create" className="btn btn-primary d-flex align-items-center gap-1">
+                    <Link href="/suppliers/create" className="btn btn-primary d-flex align-items-center gap-1">
                         <i className="mdi mdi-account-plus font-16"></i>
                         <span>Add Supplier</span>
-                    </a>
+                    </Link>
                 </div>
 
                 <div className="card border-0 shadow-sm mb-4">
@@ -87,13 +87,13 @@ export default function Index({ suppliers = [] }) {
                                                 <td className="small text-muted">{s.email || '-'}</td>
                                                 <td className="text-center pe-4">
                                                     <div className="d-flex justify-content-center gap-1">
-                                                        <a
+                                                        <Link
                                                             href={`/suppliers/${s.id}/edit`}
                                                             className="btn btn-sm btn-outline-warning"
                                                             title="Edit"
                                                         >
                                                             <i className="mdi mdi-pencil"></i>
-                                                        </a>
+                                                        </Link>
                                                         <button
                                                             onClick={() => handleDelete(s.id)}
                                                             className="btn btn-sm btn-outline-danger"

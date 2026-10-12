@@ -18,11 +18,7 @@ class SupplierController extends Controller
 
         $suppliers = Supplier::sortByOrderNumber($suppliers);
 
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            return \Inertia\Inertia::render('Purchase/Suppliers/Index', compact('suppliers'));
-        }
-
-        return view('suppliers.index', compact('suppliers'));
+        return \Inertia\Inertia::render('Purchase/Suppliers/Index', compact('suppliers'));
     }
 
     public function create()
@@ -30,13 +26,9 @@ class SupplierController extends Controller
         $lastSupplier = Supplier::where('cid', auth()->user()->cid)->orderBy('id', 'desc')->first();
         $next_id = ($lastSupplier->id ?? 0) + 1;
 
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            return \Inertia\Inertia::render('Purchase/Suppliers/CreateEdit', [
-                'next_id' => $next_id,
-            ]);
-        }
-
-        return view('suppliers.create', compact('next_id'));
+        return \Inertia\Inertia::render('Purchase/Suppliers/CreateEdit', [
+            'next_id' => $next_id,
+        ]);
     }
 
     public function store(Request $request)
@@ -97,13 +89,9 @@ class SupplierController extends Controller
     {
         $supplier = Supplier::findOrFail($id);
 
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            return \Inertia\Inertia::render('Purchase/Suppliers/CreateEdit', [
-                'supplier' => $supplier,
-            ]);
-        }
-
-        return view('suppliers.edit', compact('supplier'));
+        return \Inertia\Inertia::render('Purchase/Suppliers/CreateEdit', [
+            'supplier' => $supplier,
+        ]);
     }
 
     public function update(Request $request, Supplier $supplier)

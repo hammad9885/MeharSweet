@@ -95,16 +95,12 @@ namespace App\Http\Controllers;
             }
             $saleType = SaleType::where('cid', $companyId)->get();
             
-            if ($request->header('X-Inertia')) {
-                return \Inertia\Inertia::render('Inventory/CreateEdit', [
-                    'nextSeq'   => $nextSeq,
-                    'itemtypes' => $itemtypes,
-                    'itemUnits' => $itemUnits,
-                    'item'      => null,
-                ]);
-            }
-
-            return view('inventory.create_item_master', get_defined_vars());
+            return \Inertia\Inertia::render('Inventory/CreateEdit', [
+                'nextSeq'   => $nextSeq,
+                'itemtypes' => $itemtypes,
+                'itemUnits' => $itemUnits,
+                'item'      => null,
+            ]);
         }
 
         // 🔹 Create Item Type (form)
@@ -209,16 +205,12 @@ namespace App\Http\Controllers;
             }
             $saleType    = SaleType::where('cid', $companyId)->get();
 
-            if ($request->header('X-Inertia')) {
-                return \Inertia\Inertia::render('Inventory/CreateEdit', [
-                    'nextSeq'   => $itemMasters->seq_number,
-                    'itemtypes' => $itemtypes,
-                    'itemUnits' => $itemUnits,
-                    'item'      => $itemMasters,
-                ]);
-            }
-
-            return view('inventory.edit_item_master', compact('itemMasters', 'itemtypes', 'itemUnits', 'saleType'));
+            return \Inertia\Inertia::render('Inventory/CreateEdit', [
+                'nextSeq'   => $itemMasters->seq_number,
+                'itemtypes' => $itemtypes,
+                'itemUnits' => $itemUnits,
+                'item'      => $itemMasters,
+            ]);
         }
 
         // 🔹 Update Item Master
