@@ -37,7 +37,7 @@ foreach ([
 }
 
 putenv("APP_STORAGE={$storagePath}");
-putenv("VIEW_COMPILED_PATH={$storagePath}/framework/views");
+putenv("VIEW_COMPILED_PATH=/tmp");
 putenv("APP_SERVICES_CACHE=/tmp/services.php");
 putenv("APP_PACKAGES_CACHE=/tmp/packages.php");
 putenv("APP_CONFIG_CACHE=/tmp/config.php");
@@ -49,7 +49,7 @@ putenv("LOG_CHANNEL=stderr");
 putenv("VERCEL=1");
 
 $_ENV['APP_STORAGE'] = $storagePath;
-$_ENV['VIEW_COMPILED_PATH'] = "{$storagePath}/framework/views";
+$_ENV['VIEW_COMPILED_PATH'] = "/tmp";
 $_ENV['APP_SERVICES_CACHE'] = "/tmp/services.php";
 $_ENV['APP_PACKAGES_CACHE'] = "/tmp/packages.php";
 $_ENV['SESSION_DRIVER'] = "cookie";
