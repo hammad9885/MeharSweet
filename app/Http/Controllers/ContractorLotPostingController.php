@@ -19,6 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Inertia\Inertia;
 
 class ContractorLotPostingController extends Controller
 {
@@ -123,17 +124,13 @@ class ContractorLotPostingController extends Controller
         }
         $contractors = $contractors->get();
 
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            return \Inertia\Inertia::render('Purchase/ContractorLotPosting/Index', [
-                'postings' => $masters,
-                'masters' => $masters,
-                'products' => $products,
-                'contractors' => $contractors,
-                'filters' => $request->all(),
-            ]);
-        }
-
-        return view('contractor-lot-posting.index', compact('masters', 'products', 'contractors'));
+        return Inertia::render('Purchase/ContractorLotPosting/Index', [
+            'postings' => $masters,
+            'masters' => $masters,
+            'products' => $products,
+            'contractors' => $contractors,
+            'filters' => $request->all(),
+        ]);
     }
 
     public function create()
@@ -174,7 +171,7 @@ class ContractorLotPostingController extends Controller
 
         $rawItems = ItemMaster::where('cid', $cid)->get();
 
-        return view('contractor-lot-posting.create', compact(
+        return Inertia::render('Purchase/ContractorLotPosting/CreateEdit', compact(
             'products',
             'contractors',
             'nextVoucherNo',
@@ -287,15 +284,18 @@ class ContractorLotPostingController extends Controller
 
         $rawItems = ItemMaster::where('cid', $cid)->get();
 
-        return view('contractor-lot-posting.edit', compact(
-            'posting',
-            'products',
-            'contractors',
-            'previousLotByProduct',
-            'contractorByProduct',
-            'contractorByMold',
-            'molds',
-            'rawItems'
+        return Inertia::render('Purchase/ContractorLotPosting/CreateEdit', array_merge(
+            compact(
+                'posting',
+                'products',
+                'contractors',
+                'previousLotByProduct',
+                'contractorByProduct',
+                'contractorByMold',
+                'molds',
+                'rawItems'
+            ),
+            ['isEdit' => true]
         ));
     }
 

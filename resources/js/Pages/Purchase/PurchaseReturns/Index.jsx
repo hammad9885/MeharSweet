@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { router } from '@inertiajs/react';
+import { router, Link } from '@inertiajs/react';
 
 export default function Index({
     invoices = [],
@@ -45,10 +45,10 @@ export default function Index({
                         <h3 className="fw-bold text-dark mb-1">Purchase Returns</h3>
                         <p className="text-muted small mb-0">Record and manage debit notes and returned inventory back to vendors</p>
                     </div>
-                    <a href="/purchase_return_invoices/create" className="btn btn-primary d-flex align-items-center gap-1">
+                    <Link href="/purchase_return_invoices/create" className="btn btn-primary d-flex align-items-center gap-1">
                         <i className="mdi mdi-plus-circle font-16"></i>
                         <span>Create Return Invoice</span>
-                    </a>
+                    </Link>
                 </div>
 
                 <div className="card border-0 shadow-sm mb-4">
@@ -147,13 +147,13 @@ export default function Index({
                                                     </td>
                                                     <td className="text-center pe-4">
                                                         <div className="d-flex justify-content-center gap-1">
-                                                            <a
+                                                            <Link
                                                                 href={`/purchase_return_invoices/${inv.v_no}/edit`}
                                                                 className="btn btn-sm btn-outline-warning"
                                                                 title="Edit"
                                                             >
                                                                 <i className="mdi mdi-pencil"></i>
-                                                            </a>
+                                                            </Link>
                                                             <a
                                                                 href={`/purchase-return-invoices/${inv.v_no}/print`}
                                                                 target="_blank"

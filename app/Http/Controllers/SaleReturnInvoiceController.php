@@ -11,6 +11,7 @@ use App\Models\TRNDTL;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class SaleReturnInvoiceController extends Controller
 {
@@ -56,20 +57,16 @@ class SaleReturnInvoiceController extends Controller
         }
 
         $invoices = $query->orderByDesc('v_no')->get();
+        $user = Auth::user()->cid;
+        $customers = Customer::where('cid', $user)->get();
+        $items = ProductMaster::where('cid', $user)->get();
 
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            $user = Auth::user()->cid;
-            $customers = Customer::where('cid', $user)->get();
-            $items = ProductMaster::where('cid', $user)->get();
-            return \Inertia\Inertia::render('Sales/SaleReturns/Index', [
-                'invoices' => $invoices,
-                'customers' => $customers,
-                'items' => $items,
-                'filters' => request()->all()
-            ]);
-        }
-
-        return view('sale_return_invoices.index', compact('invoices'));
+        return Inertia::render('Sales/SaleReturns/Index', [
+            'invoices' => $invoices,
+            'customers' => $customers,
+            'items' => $items,
+            'filters' => request()->all()
+        ]);
     }
 
     // Show the form for creating a new sale return invoice
@@ -79,7 +76,11 @@ class SaleReturnInvoiceController extends Controller
         $customers = Customer::where('cid', $user)->get();
         $items = ProductMaster::where('cid', $user)->get();
 
-        return view('sale_return_invoices.create', compact('customers', 'items'));
+        return Inertia::render('Sales/SaleReturns/CreateEdit', [
+            'customers' => $customers,
+            'items' => $items,
+            'isEdit' => false
+        ]);
     }
 
     // Store a newly created sale return invoice (master-detail)
@@ -206,7 +207,14 @@ class SaleReturnInvoiceController extends Controller
             ->get();
         $maxVoucherNo = TRNDTL::where('v_type', 'SRN')->where('r_id', $v_no)->where('cid', $user)->firstOrFail();
 
-        return view('sale_return_invoices.edit', compact('saleMaster', 'invoiceItems', 'items', 'customers', 'maxVoucherNo'));
+        return Inertia::render('Sales/SaleReturns/CreateEdit', [
+            'saleMaster' => $saleMaster,
+            'invoiceItems' => $invoiceItems,
+            'items' => $items,
+            'customers' => $customers,
+            'maxVoucherNo' => $maxVoucherNo,
+            'isEdit' => true
+        ]);
     }
 
     // Update the specified sale return invoice

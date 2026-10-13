@@ -200,8 +200,8 @@ class TrialBalanceController extends Controller
 }
 
     
-    public function main()
+    public function main(Request $request)
     {
-        return view('trialbalance.index');
+        return $this->index($request);
     }
 }

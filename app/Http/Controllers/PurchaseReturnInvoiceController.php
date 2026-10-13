@@ -11,6 +11,7 @@ use App\Models\TRNDTL;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class PurchaseReturnInvoiceController extends Controller
 {
@@ -49,19 +50,15 @@ class PurchaseReturnInvoiceController extends Controller
         }
 
         $invoices = $query->orderByDesc('v_no')->get();
+        $suppliers = Supplier::where('cid', $user)->get();
+        $items = ItemMaster::where('cid', $user)->get();
 
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            $suppliers = Supplier::where('cid', $user)->get();
-            $items = ItemMaster::where('cid', $user)->get();
-            return \Inertia\Inertia::render('Purchase/PurchaseReturns/Index', [
-                'invoices' => $invoices,
-                'suppliers' => $suppliers,
-                'items' => $items,
-                'filters' => request()->all(),
-            ]);
-        }
-
-        return view('purchase_return_invoices.index', compact('invoices'));
+        return Inertia::render('Purchase/PurchaseReturns/Index', [
+            'invoices' => $invoices,
+            'suppliers' => $suppliers,
+            'items' => $items,
+            'filters' => request()->all(),
+        ]);
     }
 
     // Show the form for creating a new purchase return invoice
@@ -71,7 +68,11 @@ class PurchaseReturnInvoiceController extends Controller
         $suppliers = Supplier::where('cid', $user)->get();
         $items = ItemMaster::where('cid', $user)->get();
 
-        return view('purchase_return_invoices.create', compact('suppliers', 'items'));
+        return Inertia::render('Purchase/PurchaseReturns/CreateEdit', [
+            'suppliers' => $suppliers,
+            'items' => $items,
+            'isEdit' => false
+        ]);
     }
 
     // Store a newly created purchase return invoice (master-detail)
@@ -194,7 +195,14 @@ class PurchaseReturnInvoiceController extends Controller
             ->get();
         $maxVoucherNo = TRNDTL::where('v_type', 'PRN')->where('r_id', $v_no)->where('cid', $user)->firstOrFail();
 
-        return view('purchase_return_invoices.edit', compact('purchaseMaster', 'invoiceItems', 'items', 'suppliers', 'maxVoucherNo'));
+        return Inertia::render('Purchase/PurchaseReturns/CreateEdit', [
+            'purchaseMaster' => $purchaseMaster,
+            'invoiceItems' => $invoiceItems,
+            'items' => $items,
+            'suppliers' => $suppliers,
+            'maxVoucherNo' => $maxVoucherNo,
+            'isEdit' => true
+        ]);
     }
 
     // Update the specified purchase return invoice

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { router } from '@inertiajs/react';
+import { router, Link } from '@inertiajs/react';
 
 export default function Index({ invoices = [], customers = [], items = [], filters = {} }) {
     const [voucherNo, setVoucherNo] = useState(filters.voucher_no || '');
@@ -40,10 +40,10 @@ export default function Index({ invoices = [], customers = [], items = [], filte
                         <h3 className="fw-bold text-dark mb-1">Sale Returns</h3>
                         <p className="text-muted small mb-0">Manage customer returned goods, restocking, and credit invoices</p>
                     </div>
-                    <a href="/sale_return_invoices/create" className="btn btn-primary d-flex align-items-center gap-2">
+                    <Link href="/sale_return_invoices/create" className="btn btn-primary d-flex align-items-center gap-2">
                         <i className="mdi mdi-plus-circle font-16"></i>
                         <span>Create Sale Return</span>
-                    </a>
+                    </Link>
                 </div>
 
                 <div className="card border-0 shadow-sm mb-4">
@@ -146,13 +146,13 @@ export default function Index({ invoices = [], customers = [], items = [], filte
                                                     </td>
                                                     <td className="text-center pe-4">
                                                         <div className="d-flex justify-content-center gap-1">
-                                                            <a
+                                                            <Link
                                                                 href={`/sale_return_invoices/${inv.v_no}/edit`}
                                                                 className="btn btn-sm btn-outline-warning"
                                                                 title="Edit"
                                                             >
                                                                 <i className="mdi mdi-pencil"></i>
-                                                            </a>
+                                                            </Link>
                                                             <a
                                                                 href={`/sale-return-invoices/${inv.v_no}/print`}
                                                                 target="_blank"

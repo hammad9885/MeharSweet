@@ -7,6 +7,7 @@ use App\Models\PurchaseInvoice;
 use App\Models\Customers;
 use App\Models\CustomerCategory;
 use App\Models\AccountMaster;
+use App\Models\TransportCompany;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -14,26 +15,28 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customers::with('accountMaster')->where('cid', auth()->user()->cid)->get();
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            $customerNames = Customers::where('cid', auth()->user()->cid)->pluck('name')->unique();
-            $categories = CustomerCategory::where('cid', auth()->user()->cid)->get();
-            return \Inertia\Inertia::render('Sales/Customers/Index', [
-                'customers' => $customers,
-                'customerNames' => $customerNames,
-                'categories' => $categories,
-                'filters' => request()->all()
-            ]);
-        }
-        return view('customers.index', compact('customers'));
+        $customerNames = Customers::where('cid', auth()->user()->cid)->pluck('name')->unique();
+        $categories = CustomerCategory::where('cid', auth()->user()->cid)->get();
+        return \Inertia\Inertia::render('Sales/Customers/Index', [
+            'customers' => $customers,
+            'customerNames' => $customerNames,
+            'categories' => $categories,
+            'filters' => request()->all()
+        ]);
     }
 
     public function create()
     {
         $categories = CustomerCategory::where('cid', auth()->user()->cid)->get();
+        $transportCompanies = TransportCompany::where('cid', auth()->user()->cid)->get();
         $lastCustomer = Customers::where('cid', auth()->user()->cid)->orderBy('id', 'desc')->first();
         $next_id = ($lastCustomer->id ?? 0) + 1;
 
-        return view('customers.create', compact('categories', 'next_id'));
+        return \Inertia\Inertia::render('Sales/Customers/CreateEdit', [
+            'categories' => $categories,
+            'transportCompanies' => $transportCompanies,
+            'next_id' => $next_id,
+        ]);
     }
 
 public function store(Request $request)
@@ -106,7 +109,12 @@ public function store(Request $request)
 {
     $customer = Customers::findOrFail($id);
     $categories = CustomerCategory::where('cid', auth()->user()->cid)->get();
-    return view('customers.edit', compact('customer', 'categories'));
+    $transportCompanies = TransportCompany::where('cid', auth()->user()->cid)->get();
+    return \Inertia\Inertia::render('Sales/Customers/CreateEdit', [
+        'customer' => $customer,
+        'categories' => $categories,
+        'transportCompanies' => $transportCompanies,
+    ]);
 }
 
     public function update(Request $request, Customers $customer)

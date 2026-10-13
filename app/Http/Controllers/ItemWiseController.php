@@ -74,7 +74,12 @@ class ItemWiseController extends Controller
                 ];
             });
 
-            return view('ItemWiseSaleReport.SaleWise', compact('report', 'summarize', 'items'));
+            return \Inertia\Inertia::render('Sales/Reports/ItemWiseSale', [
+                'report' => $report,
+                'summarize' => 1,
+                'items' => $items,
+                'filters' => request()->all()
+            ]);
         }
 
         // ------------------------
@@ -136,16 +141,12 @@ class ItemWiseController extends Controller
         $data = $saleQuery->orderBy('v_no', 'DESC')->get();
         $return = $returnQuery->orderBy('v_no', 'DESC')->get();
 
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            return \Inertia\Inertia::render('Sales/Reports/ItemWiseSale', [
-                'items' => $items,
-                'data' => $data,
-                'return' => $return,
-                'summarize' => $summarize,
-                'filters' => request()->all()
-            ]);
-        }
-
-        return view('ItemWiseSaleReport.SaleWise', compact('items', 'data', 'return', 'summarize'));
+        return \Inertia\Inertia::render('Sales/Reports/ItemWiseSale', [
+            'items' => $items,
+            'data' => $data,
+            'return' => $return,
+            'summarize' => $summarize,
+            'filters' => request()->all()
+        ]);
     }
 }

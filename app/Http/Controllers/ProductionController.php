@@ -67,16 +67,12 @@ class ProductionController extends Controller
             ->orderBy('v_no', 'desc')
             ->pluck('v_no');
 
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            return \Inertia\Inertia::render('Manufacturing/Production/Index', [
-                'productions' => $productions,
-                'vNoList' => $vNoList,
-                'items' => $items,
-                'filters' => $request->all(),
-            ]);
-        }
-
-        return view('production.index', compact('productions', 'vNoList', 'items'));
+        return \Inertia\Inertia::render('Manufacturing/Production/Index', [
+            'productions' => $productions,
+            'vNoList' => $vNoList,
+            'items' => $items,
+            'filters' => $request->all(),
+        ]);
     }
 
     // 🆕 Show create form
@@ -94,11 +90,7 @@ class ProductionController extends Controller
             ->where('item_type', 'fp')
             ->get();
 
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            return \Inertia\Inertia::render('Manufacturing/Production/CreateEdit', compact('items'));
-        }
-
-        return view('production.create', compact('items'));
+        return \Inertia\Inertia::render('Manufacturing/Production/CreateEdit', compact('items'));
     }
 
     // 💾 Store new production
@@ -197,15 +189,11 @@ class ProductionController extends Controller
             ->where('item_type', 'fp')
             ->get();
 
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            return \Inertia\Inertia::render('Manufacturing/Production/CreateEdit', [
-                'isEdit' => true,
-                'production' => $production,
-                'items' => $items,
-            ]);
-        }
-
-        return view('production.edit', compact('production', 'items'));
+        return \Inertia\Inertia::render('Manufacturing/Production/CreateEdit', [
+            'isEdit' => true,
+            'production' => $production,
+            'items' => $items,
+        ]);
     }
 
     // 🔄 Update

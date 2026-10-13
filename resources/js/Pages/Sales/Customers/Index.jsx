@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { router } from '@inertiajs/react';
+import { router, Link } from '@inertiajs/react';
 
 export default function Index({
     customers = [],
@@ -34,10 +34,10 @@ export default function Index({
                         <h3 className="fw-bold text-dark mb-1">Customers</h3>
                         <p className="text-muted small mb-0">Manage customer accounts, contact details, transport routing, and cities</p>
                     </div>
-                    <a href="/customers/create" className="btn btn-primary d-flex align-items-center gap-2">
+                    <Link href="/customers/create" className="btn btn-primary d-flex align-items-center gap-2">
                         <i className="mdi mdi-account-plus font-16"></i>
                         <span>Add Customer</span>
-                    </a>
+                    </Link>
                 </div>
 
                 {/* Filter */}
@@ -91,13 +91,13 @@ export default function Index({
                                                 <td className="small text-muted">{c.company_title || c.transport_company || '-'}</td>
                                                 <td className="text-center pe-4">
                                                     <div className="d-flex justify-content-center gap-1">
-                                                        <a
+                                                        <Link
                                                             href={`/customers/${c.id}/edit`}
                                                             className="btn btn-sm btn-outline-warning"
                                                             title="Edit Customer"
                                                         >
                                                             <i className="mdi mdi-pencil"></i>
-                                                        </a>
+                                                        </Link>
                                                         <button
                                                             onClick={() => handleDelete(c.id)}
                                                             className="btn btn-sm btn-outline-danger"

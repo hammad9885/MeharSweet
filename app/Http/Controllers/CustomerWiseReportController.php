@@ -88,19 +88,17 @@ class CustomerWiseReportController extends Controller
 
             $data = $saleQuery->orderBy('v_no', 'DESC')->get();
             $return = $returnQuery->orderBy('v_no', 'DESC')->get();
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            $customers = \App\Models\Customers::with('accountMaster')->where('cid', auth()->user()->cid)->get();
-            return \Inertia\Inertia::render('Sales/Reports/CustomerWiseSale', [
-                'data' => $data,
-                'startDate' => $startDate,
-                'endDate' => $endDate,
-                'return' => $return,
-                'customers' => $customers,
-                'filters' => request()->all()
-            ]);
         }
-        
-        return view('CustomerWiseReport.index', compact('data', 'startDate', 'endDate','return'));
+
+        $customers = \App\Models\Customers::with('accountMaster')->where('cid', auth()->user()->cid)->get();
+        return \Inertia\Inertia::render('Sales/Reports/CustomerWiseSale', [
+            'data' => $data,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'return' => $return,
+            'customers' => $customers,
+            'filters' => request()->all()
+        ]);
     }
     public function saleWise(Request $request)
     {
@@ -179,16 +177,14 @@ class CustomerWiseReportController extends Controller
 
             $data = $saleQuery->orderBy('v_no', 'DESC')->get();
             $return = $returnQuery->orderBy('v_no', 'DESC')->get();
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            return \Inertia\Inertia::render('Sales/Reports/SaleReport', [
-                'data' => $data,
-                'startDate' => $startDate,
-                'endDate' => $endDate,
-                'return' => $return,
-                'filters' => request()->all()
-            ]);
         }
-        
-        return view('SaleReport.salewiseReport', compact('data', 'startDate', 'endDate','return'));
+
+        return \Inertia\Inertia::render('Sales/Reports/SaleReport', [
+            'data' => $data,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'return' => $return,
+            'filters' => request()->all()
+        ]);
     }
 }

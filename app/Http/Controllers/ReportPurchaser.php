@@ -77,16 +77,12 @@ class ReportPurchaser extends Controller
                 ];
             });
 
-            if (request()->wantsJson() || request()->header('X-Inertia')) {
-                return \Inertia\Inertia::render('Purchase/Reports/ItemWisePurchase', [
-                    'report' => $report,
-                    'summarize' => 1,
-                    'items' => $items,
-                    'filters' => $request->all(),
-                ]);
-            }
-
-            return view('PurchaseReports.ItemWise', compact('report', 'summarize', 'items'));
+            return \Inertia\Inertia::render('Purchase/Reports/ItemWisePurchase', [
+                'report' => $report,
+                'summarize' => 1,
+                'items' => $items,
+                'filters' => $request->all(),
+            ]);
         }
 
         // ------------------------
@@ -148,17 +144,13 @@ class ReportPurchaser extends Controller
         $data = $saleQuery->orderBy('v_no', 'DESC')->get();
         $return = $returnQuery->orderBy('v_no', 'DESC')->get();
 
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            return \Inertia\Inertia::render('Purchase/Reports/ItemWisePurchase', [
-                'items' => $items,
-                'data' => $data,
-                'return' => $return,
-                'summarize' => 0,
-                'filters' => $request->all(),
-            ]);
-        }
-
-        return view('PurchaseReports.ItemWise', compact('items', 'data', 'return', 'summarize'));
+        return \Inertia\Inertia::render('Purchase/Reports/ItemWisePurchase', [
+            'items' => $items,
+            'data' => $data,
+            'return' => $return,
+            'summarize' => 0,
+            'filters' => $request->all(),
+        ]);
     }
 
     public function supplierwise(Request $request)
@@ -244,19 +236,15 @@ class ReportPurchaser extends Controller
         // dd($sales);
         // dd($returns);
 
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            $suppliers = \App\Models\Supplier::where('cid', auth()->user()->cid)->get();
-            return \Inertia\Inertia::render('Purchase/Reports/SupplierWisePurchase', [
-                'data' => $data,
-                'startDate' => $startDate,
-                'endDate' => $endDate,
-                'return' => $return,
-                'suppliers' => $suppliers,
-                'filters' => $request->all(),
-            ]);
-        }
-
-        return view('PurchaseReports.SupplierWise', compact('data', 'startDate', 'endDate', 'return'));
+        $suppliers = \App\Models\Supplier::where('cid', auth()->user()->cid)->get();
+        return \Inertia\Inertia::render('Purchase/Reports/SupplierWisePurchase', [
+            'data' => $data,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'return' => $return,
+            'suppliers' => $suppliers,
+            'filters' => $request->all(),
+        ]);
     }
     public function saleWise(Request $request)
     {
@@ -324,17 +312,13 @@ class ReportPurchaser extends Controller
         $data = $saleQuery->orderBy('v_no', 'DESC')->get();
         $return = $returnQuery->orderBy('v_no', 'DESC')->get();
 
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            return \Inertia\Inertia::render('Purchase/Reports/PurchaseReport', [
-                'data' => $data,
-                'startDate' => $startDate,
-                'endDate' => $endDate,
-                'return' => $return,
-                'filters' => $request->all(),
-            ]);
-        }
-
-        return view('PurchaseReports.PurchaseWise', compact('data', 'startDate', 'endDate', 'return'));
+        return \Inertia\Inertia::render('Purchase/Reports/PurchaseReport', [
+            'data' => $data,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'return' => $return,
+            'filters' => $request->all(),
+        ]);
     }
     public function type(Request $request)
     {
@@ -427,17 +411,13 @@ class ReportPurchaser extends Controller
                 ];
             });
 
-            if (request()->wantsJson() || request()->header('X-Inertia')) {
-                return \Inertia\Inertia::render('Purchase/Reports/CategoryWisePurchase', [
-                    'report' => $report,
-                    'summarize' => 1,
-                    'itemsTypes' => $itemsTypes,
-                    'typeId' => $typeId,
-                    'filters' => $request->all(),
-                ]);
-            }
-
-            return view('PurchaseReports.TypeWise', compact('report', 'summarize', 'itemsTypes', 'typeId'));
+            return \Inertia\Inertia::render('Purchase/Reports/CategoryWisePurchase', [
+                'report' => $report,
+                'summarize' => 1,
+                'itemsTypes' => $itemsTypes,
+                'typeId' => $typeId,
+                'filters' => $request->all(),
+            ]);
         }
 
 
@@ -448,18 +428,14 @@ class ReportPurchaser extends Controller
         $data = $result['data'];
         $return = $result['return'];
 
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            return \Inertia\Inertia::render('Purchase/Reports/CategoryWisePurchase', [
-                'data' => $data,
-                'return' => $return,
-                'summarize' => 0,
-                'itemsTypes' => $itemsTypes,
-                'typeId' => $typeId,
-                'filters' => $request->all(),
-            ]);
-        }
-
-        return view('PurchaseReports.TypeWise', compact('data', 'return', 'summarize', 'itemsTypes', 'typeId'));
+        return \Inertia\Inertia::render('Purchase/Reports/CategoryWisePurchase', [
+            'data' => $data,
+            'return' => $return,
+            'summarize' => 0,
+            'itemsTypes' => $itemsTypes,
+            'typeId' => $typeId,
+            'filters' => $request->all(),
+        ]);
     }
 
     /**

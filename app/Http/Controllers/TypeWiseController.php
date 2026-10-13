@@ -102,7 +102,13 @@ class TypeWiseController extends Controller
         ];
     });
      
-    return view('ItemReportbysale.type', compact('report', 'summarize', 'itemsTypes', 'typeId'));
+    return \Inertia\Inertia::render('Sales/Reports/CategoryWiseSale', [
+        'report' => $report,
+        'summarize' => 1,
+        'itemsTypes' => $itemsTypes,
+        'typeId' => $typeId,
+        'filters' => request()->all()
+    ]);
 }
 
 
@@ -113,18 +119,14 @@ class TypeWiseController extends Controller
         $data = $result['data'];
         $return = $result['return'];
 
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            return \Inertia\Inertia::render('Sales/Reports/CategoryWiseSale', [
-                'data' => $data,
-                'return' => $return,
-                'summarize' => $summarize,
-                'itemsTypes' => $itemsTypes,
-                'typeId' => $typeId,
-                'filters' => request()->all()
-            ]);
-        }
-
-        return view('ItemReportbysale.type', compact('data', 'return', 'summarize', 'itemsTypes', 'typeId'));
+        return \Inertia\Inertia::render('Sales/Reports/CategoryWiseSale', [
+            'data' => $data,
+            'return' => $return,
+            'summarize' => $summarize,
+            'itemsTypes' => $itemsTypes,
+            'typeId' => $typeId,
+            'filters' => request()->all()
+        ]);
     }
 
     /**

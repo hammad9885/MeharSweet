@@ -15,16 +15,12 @@ class ContractorController extends Controller
         $user = Auth::user()->cid;
         $contractors = Contractor::where('cid', $user)->get();
 
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            return \Inertia\Inertia::render('Purchase/Contractors/Index', compact('contractors'));
-        }
-
-        return view('contractors.index', compact('contractors'));
+        return \Inertia\Inertia::render('Purchase/Contractors/Index', compact('contractors'));
     }
 
     public function create()
     {
-        return view('contractors.create');
+        return redirect()->route('contractors.index');
     }
 
     public function store(Request $request)
@@ -59,7 +55,7 @@ class ContractorController extends Controller
 
     public function edit(Contractor $contractor)
     {
-        return view('contractors.edit', compact('contractor'));
+        return redirect()->route('contractors.index');
     }
 
     public function update(Request $request, Contractor $contractor)

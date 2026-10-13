@@ -45,15 +45,11 @@ class Consumption2Controller extends Controller
                   ->where('cid', auth()->user()->cid);
         })->distinct()->get()->keyBy('id');
 
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            return \Inertia\Inertia::render('Manufacturing/Consumption2/Index', [
-                'consumptions' => $consumptions,
-                'products' => $products,
-                'filters' => $request->all(),
-            ]);
-        }
-
-        return view('consumption2.index', compact('consumptions', 'products'));
+        return \Inertia\Inertia::render('Manufacturing/Consumption2/Index', [
+            'consumptions' => $consumptions,
+            'products' => $products,
+            'filters' => $request->all(),
+        ]);
     }
 
     public function create()
@@ -115,11 +111,7 @@ class Consumption2Controller extends Controller
     }
     $contractors = $contractors->get();
 
-    if (request()->wantsJson() || request()->header('X-Inertia')) {
-        return \Inertia\Inertia::render('Manufacturing/Consumption2/CreateEdit', compact('items', 'raw', 'expenseAccounts', 'molds', 'contractors','productMaster', 'latestRates'));
-    }
-
-    return view('consumption2.create', compact('items', 'raw', 'expenseAccounts', 'molds', 'contractors','productMaster', 'latestRates'));
+    return \Inertia\Inertia::render('Manufacturing/Consumption2/CreateEdit', compact('items', 'raw', 'expenseAccounts', 'molds', 'contractors','productMaster', 'latestRates'));
 }
 
     public function store(Request $request)
@@ -244,21 +236,17 @@ class Consumption2Controller extends Controller
     }
     $contractors = $contractors->get();
 
-    if (request()->wantsJson() || request()->header('X-Inertia')) {
-        $productMaster = ProductMaster::where('cid', $cid)->orderBy('product_name')->get();
-        return \Inertia\Inertia::render('Manufacturing/Consumption2/CreateEdit', [
-            'isEdit' => true,
-            'consumption' => $consumption,
-            'products' => $products,
-            'productMaster' => $productMaster,
-            'raw' => $raw,
-            'molds' => $molds,
-            'contractors' => $contractors,
-            'latestRates' => $latestRates,
-        ]);
-    }
-
-    return view('consumption2.edit', compact('consumption', 'products', 'raw', 'molds', 'contractors', 'latestRates'));
+    $productMaster = ProductMaster::where('cid', $cid)->orderBy('product_name')->get();
+    return \Inertia\Inertia::render('Manufacturing/Consumption2/CreateEdit', [
+        'isEdit' => true,
+        'consumption' => $consumption,
+        'products' => $products,
+        'productMaster' => $productMaster,
+        'raw' => $raw,
+        'molds' => $molds,
+        'contractors' => $contractors,
+        'latestRates' => $latestRates,
+    ]);
 }
     public function update(Request $request, $id)
     {

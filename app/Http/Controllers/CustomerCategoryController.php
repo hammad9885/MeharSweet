@@ -11,19 +11,14 @@ class CustomerCategoryController extends Controller
     public function index()
     {
         $categories = CustomerCategory::where('cid', Auth::user()->cid)->get();
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            return \Inertia\Inertia::render('Sales/CustomerCategories/Index', [
-                'categories' => $categories
-            ]);
-        }
-        return view('customer_categories.index', compact('categories'));
+        return \Inertia\Inertia::render('Sales/CustomerCategories/Index', [
+            'categories' => $categories
+        ]);
     }
 
     public function create()
     {
-        $lastCategory = CustomerCategory::where('cid', Auth::user()->cid)->orderBy('id', 'desc')->first();
-        $next_id = ($lastCategory->id ?? 0) + 1;
-        return view('customer_categories.create', compact('next_id'));
+        return $this->index();
     }
 
     public function store(Request $request)

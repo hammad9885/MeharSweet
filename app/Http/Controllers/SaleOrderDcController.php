@@ -68,20 +68,16 @@ class SaleOrderDcController extends Controller
 
         $customers = Customers::where('cid', $user)->get();
 
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            return \Inertia\Inertia::render('Sales/DeliveryChallans/Index', [
-                'dcs' => $dcs,
-                'customers' => $customers,
-                'sorExists' => $sorExists,
-                'paidDcs' => $paidDcs,
-                'paidInvoices' => $paidInvoices,
-                'startDate' => $startDate,
-                'endDate' => $endDate,
-                'filters' => request()->all()
-            ]);
-        }
-
-        return view('sale_order_dc.index', compact('dcs', 'customers', 'sorExists', 'paidDcs', 'paidInvoices', 'startDate', 'endDate'));
+        return \Inertia\Inertia::render('Sales/DeliveryChallans/Index', [
+            'dcs' => $dcs,
+            'customers' => $customers,
+            'sorExists' => $sorExists,
+            'paidDcs' => $paidDcs,
+            'paidInvoices' => $paidInvoices,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'filters' => request()->all()
+        ]);
     }
 
     public function create(Request $request)
@@ -118,11 +114,7 @@ class SaleOrderDcController extends Controller
             }
         }
 
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            return \Inertia\Inertia::render('Sales/DeliveryChallans/CreateEdit', compact('transportCompanies', 'customers', 'referenceNames', 'preselectCustomerId', 'preselectSorVno', 'preselectedRefNameId', 'preselectedPartyRef', 'preselectedRefNumber'));
-        }
-
-        return view('sale_order_dc.create', compact('transportCompanies', 'customers', 'referenceNames', 'preselectCustomerId', 'preselectSorVno', 'preselectedRefNameId', 'preselectedPartyRef', 'preselectedRefNumber'));
+        return \Inertia\Inertia::render('Sales/DeliveryChallans/CreateEdit', compact('transportCompanies', 'customers', 'referenceNames', 'preselectCustomerId', 'preselectSorVno', 'preselectedRefNameId', 'preselectedPartyRef', 'preselectedRefNumber'));
     }
 
     public function store(Request $request)
@@ -226,19 +218,15 @@ class SaleOrderDcController extends Controller
             $sorId = $sorOrder ? $sorOrder->id : null;
         }
 
-        if (request()->wantsJson() || request()->header('X-Inertia')) {
-            return \Inertia\Inertia::render('Sales/DeliveryChallans/CreateEdit', [
-                'isEdit' => true,
-                'dc' => $dc,
-                'transportCompanies' => $transportCompanies,
-                'customers' => $customers,
-                'referenceNames' => $referenceNames,
-                'sorVno' => $sorVno,
-                'sorDetails' => $sorDetails ?? []
-            ]);
-        }
-
-        return view('sale_order_dc.edit', compact('transportCompanies', 'dc', 'customers', 'referenceNames', 'sorVno', 'sorDetails', 'sorId'));
+        return \Inertia\Inertia::render('Sales/DeliveryChallans/CreateEdit', [
+            'isEdit' => true,
+            'dc' => $dc,
+            'transportCompanies' => $transportCompanies,
+            'customers' => $customers,
+            'referenceNames' => $referenceNames,
+            'sorVno' => $sorVno,
+            'sorDetails' => $sorDetails ?? []
+        ]);
     }
 
     public function update(Request $request, $id)

@@ -27,7 +27,12 @@ class OpenBalController extends Controller
                 return redirect()->route('open_bal.reports')
                     ->with('error', 'Opening Balance Already Exists. Please edit or delete existing entries.');
             }
-            return view('open_bal.list', get_defined_vars());
+            return \Inertia\Inertia::render('Accounts/Vouchers/JournalVoucherEntry', [
+                'title' => 'Opening Balance Entry',
+                'accounts' => $accounts,
+                'storeRoute' => '/open_bal',
+                'reportsRoute' => '/open_bal/reports',
+            ]);
         }
         return redirect()->back()->with('error', 'You Have not Permission');
     }
@@ -106,9 +111,12 @@ class OpenBalController extends Controller
             $accounts = AccountMaster::where('cid', auth()->user()->cid)->get();
             $entries = OpenBal::where('cid', auth()->user()->cid)->get();
 
-            return view('open_bal.edit', [
-                'entries' => $entries,
+            return \Inertia\Inertia::render('Accounts/Vouchers/JournalVoucherEntry', [
+                'title' => 'Edit Opening Balance Entry',
+                'voucher' => $entries,
                 'accounts' => $accounts,
+                'updateRoute' => '/open_bal/update',
+                'reportsRoute' => '/open_bal/reports',
             ]);
         }
         return redirect()->back()->with('error', 'You have not permission');
