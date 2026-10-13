@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { router } from '@inertiajs/react';
 
-export default function Index({ transportCompanies = [] }) {
+export default function Index({ transportCompanies = [], editingCompany: initialEditing = null }) {
     const [name, setName] = useState('');
-    const [editingCompany, setEditingCompany] = useState(null);
-    const [editName, setEditName] = useState('');
+    const [editingCompany, setEditingCompany] = useState(initialEditing);
+    const [editName, setEditName] = useState(initialEditing ? initialEditing.name : '');
 
     const handleCreate = (e) => {
         e.preventDefault();

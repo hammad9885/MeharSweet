@@ -12,13 +12,13 @@ class ItemUnits extends Controller
     public function index()
     {
         $cid = Auth::user()->cid;
-        $units = Units::where('cid', $cid)->get();
-        return view('units.index', compact('units'));
+        $units = Units::where('cid', $cid)->orderByDesc('id')->get();
+        return \Inertia\Inertia::render('Inventory/Units/Index', compact('units'));
     }
 
     public function create()
     {
-        return view('units.create');
+        return $this->index();
     }
 
     public function store(Request $request)
@@ -37,14 +37,16 @@ class ItemUnits extends Controller
         return redirect()->route('units.index')->with('success', 'Unit created successfully.');
     }
 
-    
-
     public function edit(string $id)
     {
         $cid = Auth::user()->cid;
-        $unit = Units::where('cid', $cid)->findOrFail($id);
+        $units = Units::where('cid', $cid)->orderByDesc('id')->get();
+        $editingUnit = Units::where('cid', $cid)->findOrFail($id);
 
-        return view('units.edit', compact('unit'));
+        return \Inertia\Inertia::render('Inventory/Units/Index', [
+            'units' => $units,
+            'editingUnit' => $editingUnit,
+        ]);
     }
 
     public function update(Request $request, string $id)

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Head, router } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 export default function UserIndex({ users = [] }) {
@@ -26,12 +26,12 @@ export default function UserIndex({ users = [] }) {
             <div className="card shadow-sm border-0">
                 <div className="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
                     <div className="d-flex gap-2">
-                        <a href="/users/create" className="btn btn-primary">
+                        <Link href="/users/create" className="btn btn-primary">
                             <i className="mdi mdi-account-plus me-1"></i> Add New User
-                        </a>
-                        <a href="/user_permission" className="btn btn-outline-secondary">
+                        </Link>
+                        <Link href="/user_permission" className="btn btn-outline-secondary">
                             <i className="mdi mdi-shield-account me-1"></i> Permission Management
-                        </a>
+                        </Link>
                     </div>
 
                     <div style={{ minWidth: '240px' }}>
@@ -79,13 +79,13 @@ export default function UserIndex({ users = [] }) {
                                             <td className="text-muted">{user.mobile || '-'}</td>
                                             <td className="text-center">
                                                 <div className="btn-group btn-group-sm">
-                                                    <a
+                                                    <Link
                                                         href={`/users/${user.id}/edit`}
                                                         className="btn btn-outline-primary"
                                                         title="Edit User"
                                                     >
                                                         <i className="mdi mdi-pencil"></i>
-                                                    </a>
+                                                    </Link>
                                                     <button
                                                         type="button"
                                                         className="btn btn-outline-danger"

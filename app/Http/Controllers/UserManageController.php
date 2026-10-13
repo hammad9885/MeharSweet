@@ -25,7 +25,7 @@ class UserManageController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        return \Inertia\Inertia::render('Users/CreateEdit');
     }
 
     /**
@@ -67,7 +67,7 @@ class UserManageController extends Controller
     public function edit(User $user)
     {
         $this->authorizeCompany($user);
-        return view('users.edit', compact('user'));
+        return \Inertia\Inertia::render('Users/CreateEdit', compact('user'));
     }
 
     /**

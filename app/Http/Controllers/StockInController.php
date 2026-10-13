@@ -67,7 +67,12 @@ class StockInController extends Controller
         $referenceNames = ReferenceName::where('cid', $cid)->orderByDesc('id')->get();
         $products = ProductMaster::where('cid', $cid)->get();
 
-        return view('stock-in.index', compact('masters', 'referenceNames', 'products'));
+        return \Inertia\Inertia::render('Inventory/StockIn/Index', [
+            'masters'        => $masters,
+            'referenceNames' => $referenceNames,
+            'products'       => $products,
+            'filters'        => $request->only(['inv_no', 'ref_name_id', 'product_id', 'startDate', 'endDate']),
+        ]);
     }
 
     public function create()
@@ -104,7 +109,7 @@ class StockInController extends Controller
         // record. Falls back to the consumption record's own contractor.
         $contractorByProduct = $this->contractorByPackingMold($cid);
 
-        return view('stock-in.create', compact('referenceNames', 'products', 'contractors', 'nextInvNo', 'previousBalances', 'contractorByProduct'));
+        return \Inertia\Inertia::render('Inventory/StockIn/CreateEdit', compact('referenceNames', 'products', 'contractors', 'nextInvNo', 'previousBalances', 'contractorByProduct'));
     }
 
     public function store(Request $request)
@@ -195,7 +200,8 @@ class StockInController extends Controller
         // record. Falls back to the consumption record's own contractor.
         $contractorByProduct = $this->contractorByPackingMold($cid);
 
-        return view('stock-in.edit', compact('stockIn', 'referenceNames', 'products', 'contractors', 'previousBalances', 'contractorByProduct'));
+        $stockIn->load('details');
+        return \Inertia\Inertia::render('Inventory/StockIn/CreateEdit', compact('stockIn', 'referenceNames', 'products', 'contractors', 'previousBalances', 'contractorByProduct'));
     }
 
     public function update(Request $request, $id)

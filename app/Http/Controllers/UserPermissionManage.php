@@ -109,7 +109,7 @@ class UserPermissionManage extends Controller
             'Barcode Generate'
         ])->get();
 
-        return view('user.permissions', compact(
+        return \Inertia\Inertia::render('Users/Permissions', compact(
             'users',
             'accountsModules',
             'saleModules',

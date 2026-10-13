@@ -109,7 +109,10 @@ class StockFinsihedProduct extends Controller
     // Get all available items for the filter
     $allItems = ItemMaster::where('item_type','fp')->where('cid', Auth::user()->cid)->get();
 
-                // dd($items);  
-        return view('StockFinsihedProduct.index', compact('items', 'allItems'));
+        return \Inertia\Inertia::render('Inventory/Reports/FinishedGoodStock', [
+            'items'    => $items,
+            'allItems' => $allItems,
+            'filters'  => $request->only(['item_id', 'start_date', 'end_date']),
+        ]);
     }
 }

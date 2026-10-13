@@ -64,7 +64,10 @@ namespace App\Http\Controllers;
             $companyId = Auth::user()->cid;
             $itemtypes = ItemType::where('cid', $companyId)->where('item_type', 'fp')->get();
 
-            return view('inventory.list_item_type', get_defined_vars());
+            return \Inertia\Inertia::render('Inventory/ItemType/Index', [
+                'itemtypes' => $itemtypes,
+                'itemType'  => 'fp',
+            ]);
         }
 
         // 🔹 List Product Types (Finished Product)
@@ -73,7 +76,10 @@ namespace App\Http\Controllers;
             $companyId = Auth::user()->cid;
             $itemtypes = ItemType::where('cid', $companyId)->where('item_type', 'rp')->get();
 
-            return view('inventory.list_product_type', get_defined_vars());
+            return \Inertia\Inertia::render('Inventory/ItemType/Index', [
+                'itemtypes' => $itemtypes,
+                'itemType'  => 'rp',
+            ]);
         }
 
         // 🔹 Create Item Master (form)
@@ -106,19 +112,13 @@ namespace App\Http\Controllers;
         // 🔹 Create Item Type (form)
         public function createitemtype()
         {
-            $companyId  = Auth::user()->cid;
-            $itemMasters = ItemMaster::where('cid', $companyId)->get();
-
-            return view('inventory.create_item_type', get_defined_vars());
+            return $this->index_itemtype();
         }
 
         // 🔹 Create Product Type (form)
         public function createproducttype()
         {
-            $companyId  = Auth::user()->cid;
-            $itemMasters = ItemMaster::where('cid', $companyId)->get();
-
-            return view('inventory.create_product_type', get_defined_vars());
+            return $this->index_producttype();
         }
 
         // 🔹 Store BoxBoard
@@ -325,18 +325,28 @@ namespace App\Http\Controllers;
         public function itemtypeedit($id)
         {
             $companyId = Auth::user()->cid;
-            $itemtypes = ItemType::where('cid', $companyId)->findOrFail($id);
+            $itemtypes = ItemType::where('cid', $companyId)->where('item_type', 'fp')->get();
+            $editingType = ItemType::where('cid', $companyId)->findOrFail($id);
 
-            return view('inventory.edit_item_type', get_defined_vars());
+            return \Inertia\Inertia::render('Inventory/ItemType/Index', [
+                'itemtypes'   => $itemtypes,
+                'itemType'    => 'fp',
+                'editingType' => $editingType,
+            ]);
         }
 
         // 🔹 Edit Product Type
         public function producttypeedit($id)
         {
             $companyId = Auth::user()->cid;
-            $itemtypes = ItemType::where('cid', $companyId)->findOrFail($id);
+            $itemtypes = ItemType::where('cid', $companyId)->where('item_type', 'rp')->get();
+            $editingType = ItemType::where('cid', $companyId)->findOrFail($id);
 
-            return view('inventory.edit_product_type', get_defined_vars());
+            return \Inertia\Inertia::render('Inventory/ItemType/Index', [
+                'itemtypes'   => $itemtypes,
+                'itemType'    => 'rp',
+                'editingType' => $editingType,
+            ]);
         }
 
         // 🔹 Update Item Type

@@ -37,8 +37,12 @@ class CustomerCategoryController extends Controller
 
     public function edit($id)
     {
-        $category = CustomerCategory::where('cid', Auth::user()->cid)->findOrFail($id);
-        return view('customer_categories.edit', compact('category'));
+        $categories = CustomerCategory::where('cid', Auth::user()->cid)->get();
+        $editingCategory = CustomerCategory::where('cid', Auth::user()->cid)->findOrFail($id);
+        return \Inertia\Inertia::render('Sales/CustomerCategories/Index', [
+            'categories' => $categories,
+            'editingCategory' => $editingCategory,
+        ]);
     }
 
     public function update(Request $request, $id)

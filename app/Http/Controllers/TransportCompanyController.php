@@ -37,8 +37,12 @@ class TransportCompanyController extends Controller
     public function edit($id)
     {
         $user = Auth::user()->cid;
-        $transportCompany = TransportCompany::where('cid', $user)->findOrFail($id);
-        return view('transport_companies.edit', compact('transportCompany'));
+        $transportCompanies = TransportCompany::where('cid', $user)->orderByDesc('id')->get();
+        $editingCompany = TransportCompany::where('cid', $user)->findOrFail($id);
+        return \Inertia\Inertia::render('Sales/TransportCompanies/Index', [
+            'transportCompanies' => $transportCompanies,
+            'editingCompany' => $editingCompany,
+        ]);
     }
 
     public function update(Request $request, $id)

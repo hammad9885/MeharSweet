@@ -158,7 +158,11 @@ foreach ($stockData as $entry) {
         // Get items for dropdown
         $allitems = ItemMaster::select('id', 'item_code')->where('cid',auth()->user()->cid)->get();
 
-        return view('stocks.index', compact('items', 'allitems'));
+        return \Inertia\Inertia::render('Inventory/Reports/ProductionStock', [
+            'items'    => $items,
+            'allitems' => $allitems,
+            'filters'  => $request->only(['item_id', 'start_date', 'end_date']),
+        ]);
     }
 
     /**

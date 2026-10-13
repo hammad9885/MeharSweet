@@ -53,8 +53,11 @@ public function reports(Request $request)
         ->pluck('LEVEL2_TITLE')
         ->unique();
 
-    return view('expense.index', compact('result', 'level2Titles'));
+    return \Inertia\Inertia::render('Accounts/Reports/ExpenseReport', [
+        'result'       => $result,
+        'level2Titles' => $level2Titles,
+        'filters'      => $request->only(['start_date', 'end_date', 'status', 'level2_title']),
+    ]);
+}
 }
 
-
-}

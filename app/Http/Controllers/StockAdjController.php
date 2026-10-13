@@ -17,10 +17,10 @@ class StockAdjController extends Controller
      */
     public function index()
     {
-         $user = auth()->user();
+        $user = auth()->user();
      
         $masters = StockAdjMaster::with('details')->latest()->get();
-        return view('stock-adj.index', compact('masters'));
+        return \Inertia\Inertia::render('Inventory/StockAdj/Index', compact('masters'));
     }
 
     /**
@@ -43,7 +43,7 @@ class StockAdjController extends Controller
             $q->where('cid', $cid);
         })->get();
 
-        return view('stock-adj.create', compact('nextVNo', 'preparedByCid', 'items'));
+        return \Inertia\Inertia::render('Inventory/StockAdj/CreateEdit', compact('nextVNo', 'preparedByCid', 'items'));
     }
 
     /**
@@ -84,23 +84,23 @@ class StockAdjController extends Controller
      * Display the specified resource.
      */
     public function show($id)
-{
-    $stock_adj = StockAdjMaster::with(['details.item', 'preparedByUser'])->findOrFail($id);
-    return view('stock-adj.show', compact('stock_adj'));
-}
+    {
+        $stock_adj = StockAdjMaster::with(['details.item', 'preparedByUser'])->findOrFail($id);
+        return \Inertia\Inertia::render('Inventory/StockAdj/Show', compact('stock_adj'));
+    }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(StockAdjMaster $stock_adj)
     {
-         $user = auth()->user();
+        $user = auth()->user();
    
         $stock_adj->load('details');
         $items = ItemMaster::when(auth()->user()->cid, function ($q) {
             $q->where('cid', auth()->user()->cid);
         })->get();
-        return view('stock-adj.edit', compact('stock_adj', 'items'));
+        return \Inertia\Inertia::render('Inventory/StockAdj/CreateEdit', compact('stock_adj', 'items'));
     }
 
     /**

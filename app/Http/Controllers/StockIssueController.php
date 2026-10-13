@@ -70,7 +70,12 @@ class StockIssueController extends Controller
         }
         $contractors = $contractors->get();
 
-        return view('stock-issue.index', compact('masters', 'products', 'contractors'));
+        return \Inertia\Inertia::render('Inventory/StockIssue/Index', [
+            'masters'     => $masters,
+            'products'    => $products,
+            'contractors' => $contractors,
+            'filters'     => $request->only(['inv_no', 'product_id', 'contractor_id', 'startDate', 'endDate']),
+        ]);
     }
 
     public function create()
@@ -96,7 +101,7 @@ class StockIssueController extends Controller
 
         $contractorByProduct = $this->contractorByPackingMold($cid);
 
-        return view('stock-issue.create', compact('products', 'contractors', 'nextInvNo', 'previousBalances', 'contractorByProduct'));
+        return \Inertia\Inertia::render('Inventory/StockIssue/CreateEdit', compact('products', 'contractors', 'nextInvNo', 'previousBalances', 'contractorByProduct'));
     }
 
     public function store(Request $request)
@@ -171,7 +176,8 @@ class StockIssueController extends Controller
 
         $contractorByProduct = $this->contractorByPackingMold($cid);
 
-        return view('stock-issue.edit', compact('stockIssue', 'products', 'contractors', 'previousBalances', 'contractorByProduct'));
+        $stockIssue->load('details');
+        return \Inertia\Inertia::render('Inventory/StockIssue/CreateEdit', compact('stockIssue', 'products', 'contractors', 'previousBalances', 'contractorByProduct'));
     }
 
     public function update(Request $request, $id)

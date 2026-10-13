@@ -184,11 +184,13 @@ export default function AuthenticatedLayout({ header, children }) {
                                 {openMenus.inventory && (
                                     <ul className="nav flex-column ms-3 gap-1 border-start ps-2">
                                         <li className="nav-item"><Link className="nav-link py-1 text-white-50 small" href="/inventory/itemmaster">Item Master</Link></li>
-                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/inventory/itemtype">Item Type</a></li>
-                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/units">Units</a></li>
-                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/stocks">Production Stock</a></li>
-                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/finishgood">Finished Good</a></li>
-                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/stock-adj">Stock Adjustment</a></li>
+                                        <li className="nav-item"><Link className="nav-link py-1 text-white-50 small" href="/inventory/itemtype">Item Type</Link></li>
+                                        <li className="nav-item"><Link className="nav-link py-1 text-white-50 small" href="/units">Units</Link></li>
+                                        <li className="nav-item"><Link className="nav-link py-1 text-white-50 small" href="/stocks">Production Stock</Link></li>
+                                        <li className="nav-item"><Link className="nav-link py-1 text-white-50 small" href="/finishgood">Finished Good</Link></li>
+                                        <li className="nav-item"><Link className="nav-link py-1 text-white-50 small" href="/stock-adj">Stock Adjustment</Link></li>
+                                        <li className="nav-item"><Link className="nav-link py-1 text-white-50 small" href="/stock-in">Stock In</Link></li>
+                                        <li className="nav-item"><Link className="nav-link py-1 text-white-50 small" href="/stock-issue">Stock Issue</Link></li>
                                     </ul>
                                 )}
                             </li>
@@ -289,11 +291,22 @@ export default function AuthenticatedLayout({ header, children }) {
                                         <li className="nav-item"><Link className="nav-link py-1 text-white-50 small" href="/trialreport">Trial Balance</Link></li>
                                         <li className="nav-item"><Link className="nav-link py-1 text-white-50 small" href="/ledger">General Ledger</Link></li>
                                         <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/daily_statement/reports">Daily Statement</a></li>
-                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/expense/reports">Expense Reports</a></li>
+                                        <li className="nav-item"><Link className="nav-link py-1 text-white-50 small" href="/expense/reports">Expense Reports</Link></li>
                                     </ul>
                                 )}
                             </li>
                         )}
+
+                        {/* Users & Settings */}
+                        <li className="nav-item">
+                            <Link
+                                href="/users"
+                                className="nav-link text-white-50 px-2 py-2 rounded d-flex align-items-center gap-2"
+                            >
+                                <i className="mdi mdi-account-group font-18 text-warning"></i>
+                                {sidebarOpen && <span>Users & Permissions</span>}
+                            </Link>
+                        </li>
 
                         {/* React Showcase */}
                         <li className="nav-item mt-3 pt-3 border-top border-secondary">
