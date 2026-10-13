@@ -5,6 +5,17 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL & ~E_DEPRECATED);
 
+register_shutdown_function(function () {
+    $error = error_get_last();
+    if ($error !== null && in_array($error['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR])) {
+        http_response_code(500);
+        header('Content-Type: text/plain; charset=utf-8');
+        echo "=== PHP FATAL SHUTDOWN ERROR ===\n";
+        echo "Message: {$error['message']}\n";
+        echo "File: {$error['file']}:{$error['line']}\n";
+    }
+});
+
 // Ensure default APP_KEY if missing in environment
 $appKey = getenv('APP_KEY') ?: ($_ENV['APP_KEY'] ?? ($_SERVER['APP_KEY'] ?? 'base64:CJaa9iuCnlfEXPzuk8P6KRXwP7sSctxL7whfCMc5H2E='));
 putenv("APP_KEY={$appKey}");
