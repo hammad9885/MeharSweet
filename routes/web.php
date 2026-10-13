@@ -456,6 +456,7 @@ Route::get('/consumption/material-rate/{itemId}', [ConsumptionController::class,
 
 
             Route::get('/bank_payment', [BankPaymentController::class, 'index'])->name('bank_payment.list');
+            Route::get('/bank_payment/create', [BankPaymentController::class, 'create'])->name('bank_payment.create');
             Route::post('/bank_payment', [BankPaymentController::class, 'store'])->name('bank_payment.store');
             Route::get('/bank_payment/reports', [BankPaymentController::class, 'reports'])->name('bank_payment.reports');
             Route::get('/bank_payment/{v_no}/edit', [BankPaymentController::class, 'edit'])->name('bank_payment.edit');

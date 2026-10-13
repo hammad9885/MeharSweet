@@ -13,9 +13,14 @@ class BankController extends Controller
 {
     public function index()
     {
-        $cid = Auth::User()->fk_cid;
+        $cid = Auth::user()->fk_cid ?? Auth::user()->cid;
         $accounts = AccountMaster::where('cid', $cid)->get();
-        return view('bank.list',get_defined_vars());
+        return \Inertia\Inertia::render('Accounts/Vouchers/JournalVoucherEntry', [
+            'title' => 'Bank Opening Balance Entry',
+            'accounts' => $accounts,
+            'storeRoute' => '/bank',
+            'reportsRoute' => '/journal_voucher/reports',
+        ]);
     }
     public function store(Request $request)
     {

@@ -40,7 +40,21 @@ class PaymentController extends Controller
             ->whereNotNull('urdu_title')
             ->pluck('urdu_title', 'acc_id');
 
-        return view('payment.list', get_defined_vars());
+        return \Inertia\Inertia::render('Accounts/Vouchers/VoucherEntry', [
+            'title' => 'Cash Payment Voucher (CPV)',
+            'vType' => 'CPV',
+            'isPayment' => true,
+            'accounts' => $accounts,
+            'accountMasters' => $accountMasters,
+            'customerUrduTitles' => $customerUrduTitles,
+            'storeRoute' => '/payment',
+            'reportsRoute' => '/paymentreports',
+        ]);
+    }
+
+    public function create()
+    {
+        return $this->index();
     }
 
     public function store(Request $request)
@@ -186,8 +200,18 @@ class PaymentController extends Controller
                 ->get();
         }
 
-        // Pass the voucher and entries to the view
-        return view('cash_reports.edit2', compact('voucher', 'accountMasters', 'accounts', 'customerUrduTitles'));
+        return \Inertia\Inertia::render('Accounts/Vouchers/VoucherEntry', [
+            'title' => 'Edit Cash Payment Voucher (CPV)',
+            'vType' => 'CPV',
+            'isPayment' => true,
+            'voucher' => $voucher,
+            'v_no' => $v_no,
+            'accounts' => $accounts,
+            'accountMasters' => $accountMasters,
+            'customerUrduTitles' => $customerUrduTitles,
+            'updateRoute' => '/payment/' . $v_no . '/update',
+            'reportsRoute' => '/paymentreports',
+        ]);
     }
 
     // Handle the update

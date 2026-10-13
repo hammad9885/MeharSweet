@@ -22,7 +22,15 @@ class OfficeCashController extends Controller
         }
         $accounts = AccountMaster::all();
         
-        return view('office_cash.list',get_defined_vars());
+        return \Inertia\Inertia::render('Accounts/Vouchers/VoucherEntry', [
+            'title' => 'Office Cash Voucher (OC)',
+            'vType' => 'OC',
+            'isPayment' => true,
+            'accounts' => $accounts,
+            'accountMasters' => $accountMasters,
+            'storeRoute' => '/office_cash',
+            'reportsRoute' => '/office_cash/reports',
+        ]);
     }
     public function store(Request $request)
     {
@@ -114,14 +122,21 @@ $lastEntry = TRNDTL::where('v_type', 'OC')
        $vNoList = TRNDTL::where('v_type', 'OC')->pluck('v_no')->unique()->toArray();
      $accountIdList = TRNDTL::where('v_type', 'OC')->pluck('account_id')->unique()->toArray();
 
-    return view('office_cash.index', [
+    return \Inertia\Inertia::render('Accounts/Vouchers/VoucherReports', [
+        'title' => 'Office Cash Vouchers (OC)',
+        'vType' => 'OC',
         'trndtls' => $trndtls,
-        'startDate' => $startDate,
-        'endDate' => $endDate,
-        'status' => $status, 
         'accountMasters' => $accountMasters,
-          'vNoList' => $vNoList,
+        'vNoList' => $vNoList,
         'accountIdList' => $accountIdList,
+        'createRoute' => '/office_cash',
+        'editRoutePrefix' => '/office_cash',
+        'deleteRoutePrefix' => '/office_cash-delete',
+        'filters' => [
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'status' => $status,
+        ],
     ]);
 }
 
@@ -143,7 +158,17 @@ public function edit($v_no)
         $accountMasters = AccountMaster::where('level2_id', $cashLevelId)->get();
     }
 
-    return view('office_cash.edit', compact('voucher', 'accountMasters', 'accounts'));
+    return \Inertia\Inertia::render('Accounts/Vouchers/VoucherEntry', [
+        'title' => 'Edit Office Cash Voucher (OC)',
+        'vType' => 'OC',
+        'isPayment' => true,
+        'voucher' => $voucher,
+        'v_no' => $v_no,
+        'accounts' => $accounts,
+        'accountMasters' => $accountMasters,
+        'updateRoute' => '/office_cash/' . $v_no . '/update',
+        'reportsRoute' => '/office_cash/reports',
+    ]);
 }
 
 

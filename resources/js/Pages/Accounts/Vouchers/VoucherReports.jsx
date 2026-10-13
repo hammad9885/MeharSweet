@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Head, router } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 
 export default function VoucherReports({
@@ -157,9 +157,9 @@ export default function VoucherReports({
                 <div className="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
                     <div className="d-flex align-items-center gap-2">
                         {createRoute && (
-                            <a href={createRoute} className="btn btn-primary btn-sm no-print">
+                            <Link href={createRoute} className="btn btn-primary btn-sm no-print">
                                 <i className="mdi mdi-plus-circle me-1"></i> New {vType} Voucher
-                            </a>
+                            </Link>
                         )}
                         <button type="button" className="btn btn-outline-secondary btn-sm no-print" onClick={() => window.print()}>
                             <i className="mdi mdi-printer me-1"></i> Print
@@ -224,13 +224,13 @@ export default function VoucherReports({
                                             </td>
                                             <td className="text-center no-print">
                                                 <div className="btn-group btn-group-sm">
-                                                    <a
+                                                    <Link
                                                         href={`${editRoutePrefix}/${item.v_no}/edit`}
                                                         className="btn btn-outline-primary"
                                                         title="Edit Voucher"
                                                     >
                                                         <i className="mdi mdi-pencil"></i>
-                                                    </a>
+                                                    </Link>
                                                     <a
                                                         href={`/invoicing/${item.v_no}/${item.v_type || vType}`}
                                                         className="btn btn-outline-secondary"

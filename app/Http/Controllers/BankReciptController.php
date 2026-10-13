@@ -39,7 +39,16 @@ $customerUrduTitles = Customers::where('cid', auth()->user()->cid)
                 ->where('cid', auth()->user()->cid)
                 ->get();
         }
-        return view('bank_recipt.list',get_defined_vars());
+        return \Inertia\Inertia::render('Accounts/Vouchers/VoucherEntry', [
+            'title' => 'Bank Receipt Voucher (BRV)',
+            'vType' => 'BRV',
+            'isPayment' => false,
+            'accounts' => $accounts,
+            'accountMasters' => $accountMasters,
+            'customerUrduTitles' => $customerUrduTitles,
+            'storeRoute' => '/bank_recipt',
+            'reportsRoute' => '/bank_recipt/reports',
+        ]);
     }
    public function store(Request $request)
 {
@@ -173,8 +182,18 @@ $customerUrduTitles = Customers::where('cid', auth()->user()->cid)
             ->get();
     }
 
-    // Pass the voucher and entries to the view
-    return view('bank_reports.edit2', compact('voucher', 'accountMasters', 'accounts', 'customerUrduTitles'));
+        return \Inertia\Inertia::render('Accounts/Vouchers/VoucherEntry', [
+            'title' => 'Edit Bank Receipt Voucher (BRV)',
+            'vType' => 'BRV',
+            'isPayment' => false,
+            'voucher' => $voucher,
+            'v_no' => $v_no,
+            'accounts' => $accounts,
+            'accountMasters' => $accountMasters,
+            'customerUrduTitles' => $customerUrduTitles,
+            'updateRoute' => '/bank_recipt/' . $v_no . '/update',
+            'reportsRoute' => '/bank_recipt/reports',
+        ]);
 }
 
 

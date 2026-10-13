@@ -40,7 +40,22 @@ class BankPaymentController extends Controller
             ->whereNotNull('mobile')
             ->pluck('mobile', 'acc_id');
 
-        return view('bank_payment.list', get_defined_vars());
+        return \Inertia\Inertia::render('Accounts/Vouchers/VoucherEntry', [
+            'title' => 'Bank Payment Voucher (BPV)',
+            'vType' => 'BPV',
+            'isPayment' => true,
+            'accounts' => $accounts,
+            'accountMasters' => $accountMasters,
+            'customerUrduTitles' => $customerUrduTitles,
+            'supplierUrduTitles' => $supplierUrduTitles,
+            'storeRoute' => '/bank_payment',
+            'reportsRoute' => '/bank_payment/reports',
+        ]);
+    }
+
+    public function create()
+    {
+        return $this->index();
     }
 
     public function store(Request $request)
@@ -181,13 +196,19 @@ class BankPaymentController extends Controller
                 ->get();
         }
 
-        return view('bank_reports.edit', compact(
-            'voucher',
-            'accountMasters',
-            'accounts',
-            'customerUrduTitles',
-            'supplierUrduTitles'
-        ));
+        return \Inertia\Inertia::render('Accounts/Vouchers/VoucherEntry', [
+            'title' => 'Edit Bank Payment Voucher (BPV)',
+            'vType' => 'BPV',
+            'isPayment' => true,
+            'voucher' => $voucher,
+            'v_no' => $v_no,
+            'accounts' => $accounts,
+            'accountMasters' => $accountMasters,
+            'customerUrduTitles' => $customerUrduTitles,
+            'supplierUrduTitles' => $supplierUrduTitles,
+            'updateRoute' => '/bank_payment/' . $v_no . '/update',
+            'reportsRoute' => '/bank_payment/reports',
+        ]);
     }
 
     // Handle the update

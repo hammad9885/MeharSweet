@@ -27,7 +27,12 @@ class JournalVoucherController extends Controller
     $user = auth()->user();
     $cid = $user->cid ?? null;
     $accounts = AccountMaster::where('cid', $cid)->get();
-    return view('journal_voucher.list', get_defined_vars());
+        return \Inertia\Inertia::render('Accounts/Vouchers/JournalVoucherEntry', [
+            'title' => 'Journal Voucher (JV)',
+            'accounts' => $accounts,
+            'storeRoute' => '/journal_voucher',
+            'reportsRoute' => '/journal_voucher/reports',
+        ]);
     }
     public function store(Request $request)
 {
@@ -148,9 +153,13 @@ class JournalVoucherController extends Controller
         $voucher = TRNDTL::where('v_no', $v_no)->where('v_type', 'JV')
          ->where('cid', auth()->user()->cid)
         ->get();
-        return view('journal_voucher_reports.edit', [
+        return \Inertia\Inertia::render('Accounts/Vouchers/JournalVoucherEntry', [
+            'title' => 'Edit Journal Voucher (JV)',
             'voucher' => $voucher,
+            'v_no' => $v_no,
             'accounts' => $accounts,
+            'updateRoute' => '/journal_voucher/' . $v_no . '/update',
+            'reportsRoute' => '/journal_voucher/reports',
         ]);
     }
 

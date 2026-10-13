@@ -33,7 +33,21 @@ class CashController extends Controller
             ->whereNotNull('urdu_title')
             ->pluck('urdu_title', 'acc_id');
 
-        return view('cash.list', get_defined_vars());
+        return \Inertia\Inertia::render('Accounts/Vouchers/VoucherEntry', [
+            'title' => 'Cash Receipt Voucher (CRV)',
+            'vType' => 'CRV',
+            'isPayment' => false,
+            'accounts' => $accounts,
+            'accountMasters' => $accountMasters,
+            'customerUrduTitles' => $customerUrduTitles,
+            'storeRoute' => '/cash',
+            'reportsRoute' => '/cash/reports',
+        ]);
+    }
+
+    public function create()
+    {
+        return $this->index();
     }
 
     public function generateVoucherType($baseType)
@@ -179,7 +193,18 @@ class CashController extends Controller
             ->whereNotNull('urdu_title')
             ->pluck('urdu_title', 'acc_id');
 
-        return view('cash_reports.edit', get_defined_vars());
+        return \Inertia\Inertia::render('Accounts/Vouchers/VoucherEntry', [
+            'title' => 'Edit Cash Receipt Voucher (CRV)',
+            'vType' => 'CRV',
+            'isPayment' => false,
+            'voucher' => $voucher,
+            'v_no' => $v_no,
+            'accounts' => $accounts,
+            'accountMasters' => $accountMasters,
+            'customerUrduTitles' => $customerUrduTitles,
+            'updateRoute' => '/cash/' . $v_no . '/update',
+            'reportsRoute' => '/cash/reports',
+        ]);
     }
 
      public function update(Request $request, $id)

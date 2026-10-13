@@ -123,9 +123,9 @@ export default function AuthenticatedLayout({ header, children }) {
                     borderBottom: '1px solid rgba(255,255,255,0.08)',
                     backgroundColor: '#2b333e'
                 }}>
-                    <a href="/admin/dashboard" className="text-white text-decoration-none fw-bold fs-5">
+                    <Link href="/admin/dashboard" className="text-white text-decoration-none fw-bold fs-5">
                         {sidebarOpen ? 'MEHAR SWEETS ERP' : 'ERP'}
-                    </a>
+                    </Link>
                 </div>
 
                 {/* Navigation items */}
@@ -133,14 +133,14 @@ export default function AuthenticatedLayout({ header, children }) {
                     <ul className="nav flex-column gap-1">
                         {/* Dashboard Link */}
                         <li className="nav-item">
-                            <a
+                            <Link
                                 href={user.is_admin ? '/admin/dashboard' : '/user/dashboard'}
                                 className="nav-link text-white-50 px-2 py-2 rounded d-flex align-items-center gap-2 hover-light"
                                 style={{ transition: 'all 0.2s' }}
                             >
                                 <i className="mdi mdi-view-dashboard font-18 text-primary"></i>
                                 {sidebarOpen && <span>Dashboard</span>}
-                            </a>
+                            </Link>
                         </li>
 
                         {/* Accounts Section */}
@@ -159,11 +159,12 @@ export default function AuthenticatedLayout({ header, children }) {
                                         <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/account/level1">Level 1</a></li>
                                         <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/account/level2">Level 2</a></li>
                                         <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/account/a_master">Chart of Account</a></li>
-                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/paymentreports">Cash Payment</a></li>
-                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/cash/reports">Cash Receipt</a></li>
-                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/bank_payment/reports">Bank Payment</a></li>
-                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/bank_recipt/reports">Bank Receipt</a></li>
-                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/journal_voucher/reports">Journal Voucher</a></li>
+                                        <li className="nav-item"><Link className="nav-link py-1 text-white-50 small" href="/paymentreports">Cash Payment</Link></li>
+                                        <li className="nav-item"><Link className="nav-link py-1 text-white-50 small" href="/cash/reports">Cash Receipt</Link></li>
+                                        <li className="nav-item"><Link className="nav-link py-1 text-white-50 small" href="/bank_payment/reports">Bank Payment</Link></li>
+                                        <li className="nav-item"><Link className="nav-link py-1 text-white-50 small" href="/bank_recipt/reports">Bank Receipt</Link></li>
+                                        <li className="nav-item"><Link className="nav-link py-1 text-white-50 small" href="/journal_voucher/reports">Journal Voucher</Link></li>
+                                        <li className="nav-item"><Link className="nav-link py-1 text-white-50 small" href="/office_cash/reports">Office Cash</Link></li>
                                     </ul>
                                 )}
                             </li>
@@ -182,7 +183,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                 </div>
                                 {openMenus.inventory && (
                                     <ul className="nav flex-column ms-3 gap-1 border-start ps-2">
-                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/inventory/itemmaster">Item Master</a></li>
+                                        <li className="nav-item"><Link className="nav-link py-1 text-white-50 small" href="/inventory/itemmaster">Item Master</Link></li>
                                         <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/inventory/itemtype">Item Type</a></li>
                                         <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/units">Units</a></li>
                                         <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/stocks">Production Stock</a></li>
@@ -238,7 +239,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                         <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/Puritemwisesale">Item Wise Purchase</a></li>
                                         <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/typewisePurchase">Category Wise Purchase</a></li>
                                         <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/contractors">Contractor</a></li>
-                                        <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/suppliers">Supplier</a></li>
+                                        <li className="nav-item"><Link className="nav-link py-1 text-white-50 small" href="/suppliers">Supplier</Link></li>
                                         <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/supplierwise-report">Supplier Wise Report</a></li>
                                         <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/Purchasewise-report">Purchase Report</a></li>
                                         <li className="nav-item"><a className="nav-link py-1 text-white-50 small" href="/contractor-lot-posting">Contractor Lot Posting</a></li>
