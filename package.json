@@ -3,7 +3,7 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build && node scripts/copy-dist.js"
     },
     "devDependencies": {
         "@popperjs/core": "^2.11.6",
